@@ -1,0 +1,84 @@
+boxee.enableLog(true);
+boxee.renderBrowser = false;
+boxee.autoChoosePlayer = true;
+boxee.setDefaultCrop(0,0,0,50);
+ 
+hasActive = false;
+player = 'document.ep_player[0]';
+duration = 0;
+ 
+function checkPlayerEnd() {
+   if (duration > 0) {
+       ctime = Math.round(Number(browser.execute(player+'.getCurrentTime()')));
+       if (ctime >= duration) { boxee.notifyPlaybackEnded(); }
+       progress = Math.round((ctime/duration)*100);
+       boxee.notifyCurrentTime(ctime);
+       boxee.notifyCurrentProgress(progress);
+   }
+   else {
+       browser.execute(player+'.playVideo();');
+       duration = Number(browser.execute(player+'.getVideoDuration()'));
+       boxee.setDuration(duration);
+   }
+   setTimeout(checkPlayerEnd,500);
+}
+ 
+function setActiveWidget()
+{
+   if (!hasActive) {
+       boxee.getWidgets().forEach(function(A) {
+           if (A.getAttribute("id") == "ep_player" && A.width >= 500 && A.height >= 200) {
+               hasActive=true;
+               boxee.notifyConfigChange(A.width,A.height);
+               A.setActive(true);
+               checkPlayerEnd();
+           }
+       });
+       setTimeout(setActiveWidget,500);
+   }
+}
+ 
+setTimeout(setActiveWidget,500);
+ 
+if(boxee.getVersion() > 3.4)
+{
+   boxee.setCanPause(true);
+   boxee.setCanSkip(true);
+   boxee.setCanSetVolume(true);
+}
+ 
+boxee.onPause = function()
+{
+   browser.execute(player+'.pauseVideo();');
+}
+ 
+boxee.onPlay = function()
+{
+   browser.execute(player+'.playVideo();');
+}
+ 
+boxee.onSkip = function() {
+   current = Number(browser.execute(player+'.getCurrentTime()'))+10;
+   browser.execute(player+'.seekTo('+current+')')
+}
+ 
+boxee.onBigSkip = function() {
+   current = Number(browser.execute(player+'.getCurrentTime()'))+25;
+   browser.execute(player+'.seekTo('+current+')')
+}
+ 
+boxee.onBack = function() {
+   current = Number(browser.execute(player+'.getCurrentTime()'))-10;
+   browser.execute(player+'.seekTo('+current+')')
+}
+ 
+boxee.onBigBack = function() {
+   current = Number(browser.execute(player+'.getCurrentTime()'))-25;
+   browser.execute(player+'.seekTo('+current+')')
+}
+ 
+boxee.onSetVolume = function(volume)
+{
+   var vol = volume/100;
+   browser.execute(player+'.videoVolume('+vol+');');
+}
