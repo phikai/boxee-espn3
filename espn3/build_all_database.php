@@ -24,24 +24,32 @@ foreach($html->find('div.e3p-live table') as $live) {
 		$event_idnum = explode(",", $event_idnum[1]);
 		$raw['idnum'] = $event_idnum[0];
 	}
+	unset($event_link);
 	foreach($live->find('td.sub a') as $desc){
 		$event = $desc->plaintext;
 		$raw['t_event'] = trim($event);
 	}
+	unset($desc);
 	foreach($live->find('td.mod-cat') as $modcat){
 		$sport = $modcat->plaintext;
 		$raw['t_sport'] = trim($sport);
 	}
+	unset($modcat);
 	foreach($live->find('td.title') as $title){
 		$league = $title->plaintext;
 		$raw['t_league'] = trim($league);
 	}
+	unset($title);
 	foreach($live->find('td.time') as $times){
 		$time = $times->plaintext;
 		$raw['t_time'] = trim($time);
 	}
+	unset($times);
 	$raw['fulldate'] = date("D, d M Y H:i:s");
 	$raw['date'] = date("M d, Y");
+	
+	//Clear Live for Memory
+	unset($live);
 	
 	//Sanitize the Variables before MySQL Query
 	foreach($raw as $key => $val){
@@ -63,20 +71,27 @@ foreach($html->find('div.e3p-upcoming table') as $live) {
 		$event = $desc->plaintext;
 		$raw['t_event'] = trim($event);
 	}
+	unset($desc);
 	foreach($live->find('td.mod-cat') as $modcat){
 		$sport = $modcat->plaintext;
 		$raw['t_sport'] = trim($sport);
 	}
+	unset($modcat);
 	foreach($live->find('td.title') as $title){
 		$league = $title->plaintext;
 		$raw['t_league'] = trim($league);
 	}
+	unset($title);
 	foreach($live->find('td.time') as $times){
 		$time = $times->plaintext;
 		$raw['t_time'] = trim($time);
 	}
+	unset($times);
 	$raw['fulldate'] = date("D, d M Y H:i:s");
 	$raw['date'] = date("M d, Y");
+	
+	//Clear Live for Memory
+	unset($live);
 	
 	//Sanitize the Variables before MySQL Query
 	foreach($raw as $key => $val){
@@ -96,24 +111,32 @@ foreach($html->find('div.e3p-replay table') as $live) {
 		$event_idnum = explode(",", $event_idnum[1]);
 		$raw['idnum'] = $event_idnum[0];
 	}
+	unset($event_link);
 	foreach($live->find('td.sub a') as $desc){
 		$event = $desc->plaintext;
 		$raw['t_event'] = trim($event);
 	}
+	unset($desc);
 	foreach($live->find('td.mod-cat') as $modcat){
 		$sport = $modcat->plaintext;
 		$raw['t_sport'] = trim($sport);
 	}
+	unset($modcat);
 	foreach($live->find('td.title') as $title){
 		$league = $title->plaintext;
 		$raw['t_league'] = trim($league);
 	}
+	unset($title);
 	foreach($live->find('td.time') as $times){
 		$time = $times->plaintext;
 		$raw['t_time'] = trim($time);
 	}
+	unset($times);
 	$raw['fulldate'] = date("D, d M Y H:i:s");
 	$raw['date'] = date("M d, Y");
+	
+	//Clear Live for Memory
+	unset($live);
 	
 	//Sanitize the Variables before MySQL Query
 	foreach($raw as $key => $val){

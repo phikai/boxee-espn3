@@ -1,21 +1,21 @@
 <?php
 	
-	$builddate = date("D, d M Y H:i:s O");
+$builddate = date("D, d M Y H:i:s O");
 
-	//MySQL Connection Information
-	include('/home/phikai/boxee.thinkonezero.com/mysql_connect.inc.php');
+//MySQL Connection Information
+include('/home/phikai/boxee.thinkonezero.com/mysql_connect.inc.php');
 
-	//MySQL Connection for each Item
-	mysql_connect($server,$username,$password);
-	@mysql_select_db($database) or die( "Unable to select database");
+//MySQL Connection for each Item
+mysql_connect($server,$username,$password);
+@mysql_select_db($database) or die( "Unable to select database");
 	
-	$data = mysql_query("SELECT * FROM e3_live ORDER BY id DESC LIMIT 0, 25");
+//MySQL Query to only return Live events instead of the last 25 events from live table.
+$data = mysql_query("SELECT * FROM e3_live WHERE event_id NOT IN (SELECT event_id FROM e3_replay) ORDER BY id DESC LIMIT 0, 25");
 	
-	//JavaScript Control Overlay URL for Boxee
-	$js_control = rawurlencode('http://boxee.thinkonezero.com/espn3/build/scripts/js/control.js');	
+//JavaScript Control Overlay URL for Boxee
+$js_control = rawurlencode('http://boxee.thinkonezero.com/espn3/build/scripts/js/control.js');	
 
 $rss .= '<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:boxee="http://boxee.tv/spec/rss/" xmlns:dcterms="http://purl.org/dc/terms/">'."\n";
-
 $rss .= '<channel>'."\n";
 	$rss .= '<title>ESPN 3 Live Events</title>'."\n";
 	$rss .= '<description>ESPN 3 provides live streaming sports online.</description>'."\n";
@@ -42,17 +42,17 @@ $rss .= '<channel>'."\n";
 		unset($league);
 		unset($content_url);
 	}
-
-	//MySQL Connection Close
-	mysql_close();
 			
 $rss .= '</channel>'."\n";
 $rss .= '</rss>'."\n";
 
-//Write the XML File
-$xmlfile = '/home/phikai/boxee.thinkonezero.com/espn3/rss.xml';
+//Write the Live Events XML File
+$xmlfile = '/home/phikai/boxee.thinkonezero.com/espn3/rss_live.xml';
 $fh = fopen($xmlfile, 'w+') or die('Unable to Open File');
 fwrite($fh, $rss);
 fclose($fh);
+
+//MySQL Connection Close
+mysql_close();
 
 ?>
