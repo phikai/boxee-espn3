@@ -3,7 +3,7 @@
 	$builddate = date("D, d M Y H:i:s O");
 
 	//MySQL Connection Information
-	require_once('/home/phikai/boxee.thinkonezero.com/mysql_connect.inc');
+	include('/home/phikai/boxee.thinkonezero.com/mysql_connect.inc.php');
 
 	//MySQL Connection for each Item
 	mysql_connect($server,$username,$password);
