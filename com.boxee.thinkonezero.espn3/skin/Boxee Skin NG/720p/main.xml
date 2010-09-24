@@ -31,23 +31,21 @@
           <height>337</height>
           <texture>espn3_event_details.png</texture>
         </control>
-        <control type="button" id="1200">
-        	<posx>441</posx>
-        	<posy>105</posy>
-        	<height>27</height>
-        	<width>46</width>
-        	<texturefocus>button_live_up.png</texturefocus>
-        	<texturenofocus>button_live_up.png</texturenofocus>
-        	<onclick>Container.SetPath(100,http://boxee.thinkonezero.com/espn3/rss_live.xml)</onclick>
-        </control>
-        <control type="button" id="1201">
-        	<posx>494</posx>
-        	<posy>105</posy>
-        	<height>27</height>
-        	<width>69</width>
-        	<texturefocus>button_replay_up.png</texturefocus>
-        	<texturenofocus>button_replay_up.png</texturenofocus>
-        	<onclick>Container.SetPath(100,http://boxee.thinkonezero.com/espn3/rss_replay.xml)</onclick>
+        <control type="group" id="200">
+        	<control type="togglebutton" id="1200">
+        		<posx>63</posx>
+	        	<posy>109</posy>
+  	      	<height>18</height>
+    	    	<width>87</width>
+	        	<ondown>100</ondown>
+	        	<visible>true</visible>
+      	  	<texturefocus>button_live_selected.png</texturefocus>
+      	  	<texturenofocus>button_live_selected.png</texturenofocus>
+        		<alttexturefocus>button_replay_selected.png</alttexturefocus>
+        		<alttexturenofocus>button_replay_selected.png</alttexturenofocus>
+  	      	<onclick>Container.SetPath(100,http://boxee.thinkonezero.com/espn3/rss_replay.xml)</onclick>
+  	      	<altclick>Container.SetPath(100,http://boxee.thinkonezero.com/espn3/rss_live.xml)</altclick>
+    	    </control>
         </control>
         <control type="list" id="100">
         	<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
@@ -57,6 +55,7 @@
 	   			<posy>190</posy>
 	   			<width>504</width>
 	   			<height>457</height>
+	   			<onup>200</onup>
 	   			<orientation>vertical</orientation>
 	   			<itemlayout width="489" height="30">
 	    			<control type="label">
@@ -73,6 +72,7 @@
 	    		</itemlayout>
 	    		<focusedlayout width="489" height="30">
 	       		<control type="image">
+	       			<visible>Control.HasFocus(100)</visible>
 		   				<posx>0</posx>
 		   				<posy>0</posy>
 		   				<width>494</width>
@@ -90,7 +90,7 @@
 		   				<align>left</align>
 		   				<aligny>center</aligny>
 		   				<label>$INFO[ListItem.Label]</label>
-		   				<textcolor>white</textcolor>
+		   				<textcolor>black</textcolor>
 		   				<selectedcolor>DD940000</selectedcolor>
 	       		</control>
 	       		<control type="label">
