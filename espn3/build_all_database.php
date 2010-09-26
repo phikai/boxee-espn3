@@ -1,8 +1,5 @@
 <?php
 
-//Include the Simple HTML DOM Parser
-include('build/scripts/simplehtmldom/simple_html_dom.php');
-
 //MySQL Connection Information
 include('/home/phikai/boxee.thinkonezero.com/mysql_connect.inc.php');
 
@@ -10,143 +7,164 @@ include('/home/phikai/boxee.thinkonezero.com/mysql_connect.inc.php');
 mysql_connect($server,$username,$password);
 @mysql_select_db($database) or die("Unable to select database");
 
-//Get the HTML Source of ESPN3 Index
-$html = file_get_html('http://espn.go.com/espn3/index');
+//Set XML Errors Off
+libxml_use_internal_errors(true);
 
-//Sport Codes Array
-$sp_code_array = array('BASKETBALL' => 'bk', 'SOCCER' => 'so', 'FOOTBALL' => 'fb', 'GOLF' => 'go', 'BOXING' => 'bo', 'RUGBY' => 'rg', 'TENNIS' => 'tn', 'BASEBALL' => 'bb', 'CRICKET' => 'cc', 'FISHING' => 'fi', 'LACROSSE' => 'lc', 'AWARDS' => 'aw', 'TRACK AND FIELD' => 'tf', 'VOLLEYBALL' => 'vb', 'SOFTBALL' => 'sb', 'ACTION SPORTS' => 'et', 'AUTO RACING' => 'ar', 'HOCKEY' => 'ho', 'POKER' => 'gm');
+//Get the XML Source of ESPN3 Live Feed
+$xml = file_get_contents('http://sports-ak.espn.go.com/espn3/feeds/live');
+$enc = mb_detect_encoding($xml);
+$xml = mb_convert_encoding($xml, 'UTF-8', $enc);
+$e3_live_xml = new SimpleXMLElement($xml);
+unset($xml);
+unset($enc);
 
 //Live Event Handling
-foreach($html->find('div.e3p-live table') as $live) {
-	foreach($live->find('td.sub') as $event_link){
-		$event_id = $event_link->innertext;
-		$event_idnum = explode("(", $event_id);
-		$event_idnum = explode(",", $event_idnum[1]);
-		$raw['idnum'] = $event_idnum[0];
+foreach($e3_live_xml->event as $event) {
+	foreach($event as $event_id) {
+		$event_id_num = $event['id'];
+		$raw['idnum'] = trim($event_id_num);
 	}
-	unset($event_link);
-	foreach($live->find('td.sub a') as $desc){
-		$event = $desc->plaintext;
-		$raw['t_event'] = trim($event);
+	unset($event_id);
+	foreach($event->name as $event_name) {
+		$raw['event'] = trim($event_name);
 	}
-	unset($desc);
-	foreach($live->find('td.mod-cat') as $modcat){
-		$sport = $modcat->plaintext;
-		$raw['t_sport'] = trim($sport);
+	unset($event_name);
+	foreach($event->league as $event_league) {
+		$raw['league'] = trim($event_league);
 	}
-	unset($modcat);
-	foreach($live->find('td.title') as $title){
-		$league = $title->plaintext;
-		$raw['t_league'] = trim($league);
+	unset($event_league);
+	foreach($event->sport as $event_sport) {
+		$raw['sport'] = trim($event_sport);
 	}
-	unset($title);
-	foreach($live->find('td.time') as $times){
-		$time = $times->plaintext;
-		$raw['t_time'] = trim($time);
+	unset($event_sport);
+	foreach($event->startTime as $event_time) {
+		$time = trim($event_time);
+		$raw['date'] = date('m-d-Y', strtotime($time));
+		$raw['time'] = date('g:i A', strtotime($time));
 	}
-	unset($times);
-	$raw['fulldate'] = date("D, d M Y H:i:s");
-	$raw['date'] = date("M d, Y");
-	
-	//Clear Live for Memory
-	unset($live);
-	
-	//Sanitize the Variables before MySQL Query
+	unset($event_time);
+	foreach($event->thumbnail->large as $event_thumb) {
+		$raw['thumb'] = trim($event_thumb);
+	}
+	unset($event_thumb);
+   	
+  //Sanitize the Variables before MySQL Query
 	foreach($raw as $key => $val){
 		$safe[$key] = mysql_real_escape_string($val);
 	}
-
+   	
 	//MySQL Query for Each Item
-	$query = "INSERT INTO e3_live VALUES('', '{$safe['fulldate']}', '{$safe['date']}', '{$safe['idnum']}', '{$safe['t_event']}', '{$safe['t_sport']}', '{$sp_code_array[$safe['t_sport']]}', '{$safe['t_league']}', '{$safe['t_time']}')";
+	$query = "INSERT INTO e3_live VALUES('', NOW(), '{$safe['date']}', '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}')";
 	mysql_query($query);
+
 }
 
-//Empty Upcoming Event Table to prevent Duplications as there is no Unique Key Defined
-$query = "TRUNCATE TABLE e3_upcoming";
-mysql_query($query);
+//Unset XML to Free Memory
+unset($e3_live_xml);
 
-//Upcoming Event Handling
-foreach($html->find('div.e3p-upcoming table') as $live) {
-	foreach($live->find('td.sub') as $desc){
-		$event = $desc->plaintext;
-		$raw['t_event'] = trim($event);
-	}
-	unset($desc);
-	foreach($live->find('td.mod-cat') as $modcat){
-		$sport = $modcat->plaintext;
-		$raw['t_sport'] = trim($sport);
-	}
-	unset($modcat);
-	foreach($live->find('td.title') as $title){
-		$league = $title->plaintext;
-		$raw['t_league'] = trim($league);
-	}
-	unset($title);
-	foreach($live->find('td.time') as $times){
-		$time = $times->plaintext;
-		$raw['t_time'] = trim($time);
-	}
-	unset($times);
-	$raw['fulldate'] = date("D, d M Y H:i:s");
-	$raw['date'] = date("M d, Y");
-	
-	//Clear Live for Memory
-	unset($live);
-	
-	//Sanitize the Variables before MySQL Query
-	foreach($raw as $key => $val){
-		$safe[$key] = mysql_real_escape_string($val);
-	}
-	
-	//MySQL Query for Each Item
-	$query = "INSERT INTO e3_upcoming VALUES('', '{$safe['fulldate']}', '{$safe['date']}', '', '{$safe['t_event']}', '{$safe['t_sport']}', '{$sp_code_array[$safe['t_sport']]}', '{$safe['t_league']}', '{$safe['t_time']}')";
-	mysql_query($query);
-}
+//Get the XML Source of ESPN3 Replay Feed
+$xml = file_get_contents('http://sports-ak.espn.go.com/espn3/feeds/replay');
+$enc = mb_detect_encoding($xml);
+$xml = mb_convert_encoding($xml, 'UTF-8', $enc);
+$e3_replay_xml = new SimpleXMLElement($xml);
+unset($xml);
+unset($enc);
 
 //Replay Event Handling
-foreach($html->find('div.e3p-replay table') as $live) {
-	foreach($live->find('td.sub') as $event_link){
-		$event_id = $event_link->innertext;
-		$event_idnum = explode("(", $event_id);
-		$event_idnum = explode(",", $event_idnum[1]);
-		$raw['idnum'] = $event_idnum[0];
+foreach($e3_replay_xml->event as $event) {
+	foreach($event as $event_id) {
+		$event_id_num = $event['id'];
+		$raw['idnum'] = trim($event_id_num);
 	}
-	unset($event_link);
-	foreach($live->find('td.sub a') as $desc){
-		$event = $desc->plaintext;
-		$raw['t_event'] = trim($event);
+	unset($event_id);
+	foreach($event->name as $event_name) {
+		$raw['event'] = trim($event_name);
 	}
-	unset($desc);
-	foreach($live->find('td.mod-cat') as $modcat){
-		$sport = $modcat->plaintext;
-		$raw['t_sport'] = trim($sport);
+	unset($event_name);
+	foreach($event->league as $event_league) {
+		$raw['league'] = trim($event_league);
 	}
-	unset($modcat);
-	foreach($live->find('td.title') as $title){
-		$league = $title->plaintext;
-		$raw['t_league'] = trim($league);
+	unset($event_league);
+	foreach($event->sport as $event_sport) {
+		$raw['sport'] = trim($event_sport);
 	}
-	unset($title);
-	foreach($live->find('td.time') as $times){
-		$time = $times->plaintext;
-		$raw['t_time'] = trim($time);
+	unset($event_sport);
+	foreach($event->startTime as $event_time) {
+		$time = trim($event_time);
+		$raw['date'] = date('m-d-Y', strtotime($time));
+		$raw['time'] = date('g:i A', strtotime($time));
 	}
-	unset($times);
-	$raw['fulldate'] = date("D, d M Y H:i:s");
-	$raw['date'] = date("M d, Y");
-	
-	//Clear Live for Memory
-	unset($live);
-	
-	//Sanitize the Variables before MySQL Query
+	unset($event_time);
+	foreach($event->thumbnail->large as $event_thumb) {
+		$raw['thumb'] = trim($event_thumb);
+	}
+	unset($event_thumb);
+   	
+  //Sanitize the Variables before MySQL Query
 	foreach($raw as $key => $val){
 		$safe[$key] = mysql_real_escape_string($val);
 	}
-
+   	
 	//MySQL Query for Each Item
-	$query = "INSERT INTO e3_replay VALUES('', '{$safe['fulldate']}', '{$safe['date']}', '{$safe['idnum']}', '{$safe['t_event']}', '{$safe['t_sport']}', '{$sp_code_array[$safe['t_sport']]}', '{$safe['t_league']}', '{$safe['t_time']}')";
+	$query = "INSERT INTO e3_replay VALUES('', NOW(), '{$safe['date']}', '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}')";
 	mysql_query($query);
+
 }
+
+//Unset XML to Free Memory
+unset($e3_replay_xml);
+
+//Get the XML Source of ESPN3 Upcoming Feed
+$xml = file_get_contents('http://sports-ak.espn.go.com/espn3/feeds/upcoming');
+$enc = mb_detect_encoding($xml);
+$xml = mb_convert_encoding($xml, 'UTF-8', $enc);
+$e3_upcoming_xml = new SimpleXMLElement($xml);
+unset($xml);
+unset($enc);
+
+//Upcoming Event Handling
+foreach($e3_upcoming_xml->event as $event) {
+	foreach($event as $event_id) {
+		$event_id_num = $event['id'];
+		$raw['idnum'] = trim($event_id_num);
+	}
+	unset($event_id);
+	foreach($event->name as $event_name) {
+		$raw['event'] = trim($event_name);
+	}
+	unset($event_name);
+	foreach($event->league as $event_league) {
+		$raw['league'] = trim($event_league);
+	}
+	unset($event_league);
+	foreach($event->sport as $event_sport) {
+		$raw['sport'] = trim($event_sport);
+	}
+	unset($event_sport);
+	foreach($event->startTime as $event_time) {
+		$time = trim($event_time);
+		$raw['date'] = date('m-d-Y', strtotime($time));
+		$raw['time'] = date('g:i A', strtotime($time));
+	}
+	unset($event_time);
+	foreach($event->thumbnail->large as $event_thumb) {
+		$raw['thumb'] = trim($event_thumb);
+	}
+	unset($event_thumb);
+   	
+  //Sanitize the Variables before MySQL Query
+	foreach($raw as $key => $val){
+		$safe[$key] = mysql_real_escape_string($val);
+	}
+   	
+	//MySQL Query for Each Item
+	$query = "INSERT INTO e3_upcoming VALUES('', NOW(), '{$safe['date']}', '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}')";
+	mysql_query($query);
+
+}
+
+//Unset XML to Free Memory
+unset($e3_upcoming_xml);
 
 //MySQL Connection Close
 mysql_close();
