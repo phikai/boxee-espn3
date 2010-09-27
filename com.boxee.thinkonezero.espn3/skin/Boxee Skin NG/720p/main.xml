@@ -43,15 +43,15 @@
         </control>
         <control type="group" id="200">
         	<control type="togglebutton" id="1200">
-        		<posx>63</posx>
-	        	<posy>109</posy>
-  	      	<height>18</height>
-    	    	<width>87</width>
+        		<posx>55</posx>
+	        	<posy>103</posy>
+  	      	<height>32</height>
+    	    	<width>92</width>
 	        	<ondown>100</ondown>
 	        	<visible>true</visible>
-      	  	<texturefocus>button_live_selected.png</texturefocus>
+      	  	<texturefocus>button_live_glow.png</texturefocus>
       	  	<texturenofocus>button_live_selected.png</texturenofocus>
-        		<alttexturefocus>button_replay_selected.png</alttexturefocus>
+        		<alttexturefocus>button_replay_glow.png</alttexturefocus>
         		<alttexturenofocus>button_replay_selected.png</alttexturenofocus>
   	      	<onclick>Container.SetPath(100,http://boxee.thinkonezero.com/espn3/rss_replay.xml)</onclick>
   	      	<altclick>Container.SetPath(100,http://boxee.thinkonezero.com/espn3/rss_live.xml)</altclick>
