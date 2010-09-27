@@ -32,6 +32,11 @@ $rss .= '<channel>'."\n";
 			$rss .= '<guid>http://espn.go.com/espn3/player?id='.$results['event_id'].'</guid>'."\n";
 			$rss .= '<title>'.$results['sport'].' - '.$results['event'].'</title>'."\n";
 			$rss .= '<description>'.$results['sport'].' - '.$results['league'].' - '.$results['event'].' - '.$results['date'].' - '.$results['time'].' EST</description>'."\n";
+			$rss .= '<boxee:property name="custom:sport">'.$results['sport'].'</boxee:property>'."\n";
+			$rss .= '<boxee:property name="custom:league">'.$results['league'].'</boxee:property>'."\n";
+			$rss .= '<boxee:property name="custom:event">'.$results['event'].'</boxee:property>'."\n";
+			$rss .= '<boxee:property name="custom:date">'.$results['date'].'</boxee:property>'."\n";
+			$rss .= '<boxee:property name="custom:time">'.$results['time'].' EST</boxee:property>'."\n";
 			$rss .= '<media:content url="flash://espn.go.com/src='.$content_url.'%3Fid%3D'.$results['event_id'].'%26league%3D'.$league_url.'&bx-jsactions='.$js_control.'" type="application/x-shockwave-flash" />'."\n";
 			$rss .= '<media:thumbnail url="'.$results['thumb'].'" />'."\n";
 			$rss .= '<boxee:media-type expression="full" type="show" name="Live Sports"/>'."\n";			
@@ -71,6 +76,11 @@ $rss .= '<channel>'."\n";
 			$rss .= '<guid>http://espn.go.com/espn3/player?id='.$results['event_id'].'</guid>'."\n";
 			$rss .= '<title>'.$results['sport'].' - '.$results['event'].'</title>'."\n";
 			$rss .= '<description>'.$results['sport'].' - '.$results['league'].' - '.$results['event'].' - '.$results['date'].' - '.$results['time'].' EST</description>'."\n";
+			$rss .= '<boxee:property name="custom:sport">'.$results['sport'].'</boxee:property>'."\n";
+			$rss .= '<boxee:property name="custom:league">'.$results['league'].'</boxee:property>'."\n";
+			$rss .= '<boxee:property name="custom:event">'.$results['event'].'</boxee:property>'."\n";
+			$rss .= '<boxee:property name="custom:date">'.$results['date'].'</boxee:property>'."\n";
+			$rss .= '<boxee:property name="custom:time">'.$results['time'].' EST</boxee:property>'."\n";
 			$rss .= '<media:content url="flash://espn.go.com/src='.$content_url.'%3Fid%3D'.$results['event_id'].'%26league%3D'.$league_url.'&bx-jsactions='.$js_control.'" type="application/x-shockwave-flash" />'."\n";
 			$rss .= '<media:thumbnail url="'.$results['thumb'].'" />'."\n";
 			$rss .= '<boxee:media-type expression="full" type="show" name="Live Sports"/>'."\n";			
@@ -96,7 +106,7 @@ unset($fh);
 /***************** UPCOMING EVENTS RSS ******************/
 
 //MySQL Query to only return Live events instead of the last 25 events from live table.
-$data = mysql_query("SELECT * FROM e3_upcoming ORDER BY id DESC LIMIT 0, 25");
+$data = mysql_query("SELECT * FROM e3_upcoming WHERE date < NOW() + INTERVAL 7 day ORDER BY id ASC LIMIT 0, 25");
 	
 $rss .= '<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:boxee="http://boxee.tv/spec/rss/" xmlns:dcterms="http://purl.org/dc/terms/">'."\n";
 $rss .= '<channel>'."\n";
@@ -109,6 +119,11 @@ $rss .= '<channel>'."\n";
 			$rss .= '<guid>http://espn.go.com/espn3/player?id='.$results['event_id'].'</guid>'."\n";
 			$rss .= '<title>'.$results['sport'].' - '.$results['event'].'</title>'."\n";
 			$rss .= '<description>'.$results['sport'].' - '.$results['league'].' - '.$results['event'].' - '.$results['date'].' - '.$results['time'].' EST</description>'."\n";
+			$rss .= '<boxee:property name="custom:sport">'.$results['sport'].'</boxee:property>'."\n";
+			$rss .= '<boxee:property name="custom:league">'.$results['league'].'</boxee:property>'."\n";
+			$rss .= '<boxee:property name="custom:event">'.$results['event'].'</boxee:property>'."\n";
+			$rss .= '<boxee:property name="custom:date">'.$results['date'].'</boxee:property>'."\n";
+			$rss .= '<boxee:property name="custom:time">'.$results['time'].' EST</boxee:property>'."\n";
 			$rss .= '<media:thumbnail url="'.$results['thumb'].'" />'."\n";
 			$rss .= '<boxee:media-type expression="full" type="show" name="Live Sports"/>'."\n";			
 			$rss .= '<media:category scheme="urn:boxee:genre">sport</media:category>'."\n";

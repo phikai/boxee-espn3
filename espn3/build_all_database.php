@@ -39,7 +39,7 @@ foreach($e3_live_xml->event as $event) {
 	unset($event_sport);
 	foreach($event->startTime as $event_time) {
 		$time = trim($event_time);
-		$raw['date'] = date('m-d-Y', strtotime($time));
+		$raw['date'] = date('Y-m-d', strtotime($time));
 		$raw['time'] = date('g:i A', strtotime($time));
 	}
 	unset($event_time);
@@ -54,7 +54,7 @@ foreach($e3_live_xml->event as $event) {
 	}
    	
 	//MySQL Query for Each Item
-	$query = "INSERT INTO e3_live VALUES('', NOW(), '{$safe['date']}', '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}')";
+	$query = "INSERT INTO e3_live VALUES('', NOW(), DATE('{$safe['date']}'), '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}')";
 	mysql_query($query);
 
 }
@@ -91,7 +91,7 @@ foreach($e3_replay_xml->event as $event) {
 	unset($event_sport);
 	foreach($event->startTime as $event_time) {
 		$time = trim($event_time);
-		$raw['date'] = date('m-d-Y', strtotime($time));
+		$raw['date'] = date('Y-m-d', strtotime($time));
 		$raw['time'] = date('g:i A', strtotime($time));
 	}
 	unset($event_time);
@@ -106,7 +106,7 @@ foreach($e3_replay_xml->event as $event) {
 	}
    	
 	//MySQL Query for Each Item
-	$query = "INSERT INTO e3_replay VALUES('', NOW(), '{$safe['date']}', '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}')";
+	$query = "INSERT INTO e3_replay VALUES('', NOW(), DATE('{$safe['date']}'), '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}')";
 	mysql_query($query);
 
 }
@@ -143,7 +143,7 @@ foreach($e3_upcoming_xml->event as $event) {
 	unset($event_sport);
 	foreach($event->startTime as $event_time) {
 		$time = trim($event_time);
-		$raw['date'] = date('m-d-Y', strtotime($time));
+		$raw['date'] = date('Y-m-d', strtotime($time));
 		$raw['time'] = date('g:i A', strtotime($time));
 	}
 	unset($event_time);
@@ -158,7 +158,7 @@ foreach($e3_upcoming_xml->event as $event) {
 	}
    	
 	//MySQL Query for Each Item
-	$query = "INSERT INTO e3_upcoming VALUES('', NOW(), '{$safe['date']}', '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}')";
+	$query = "INSERT INTO e3_upcoming VALUES('', NOW(), DATE('{$safe['date']}'), '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}')";
 	mysql_query($query);
 
 }
