@@ -57,7 +57,7 @@
   	      	<altclick>Container.SetPath(100,http://boxee.thinkonezero.com/espn3/rss_live.xml)</altclick>
     	    </control>
         </control>
-        <control type="list" id="100">
+        <control type="panel" id="100">
         	<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
 	       		<effect type="fade" start="100" end="20" time="200"/>
 	   			</animation>
@@ -68,26 +68,48 @@
 	   			<onup>200</onup>
 	   			<onright>101</onright>
 	   			<orientation>vertical</orientation>
-	   			<itemlayout width="489" height="30">
+	   			<itemlayout width="494" height="50">
 	    			<control type="label">
 							<posx>0</posx>
 							<posy>0</posy>
-							<width>494</width>
-							<height>30</height>
-							<font>font20</font>
+							<width>175</width>
+							<height>25</height>
+							<font>font17</font>
 							<align>left</align>
 							<aligny>center</aligny>
-							<label>$INFO[ListItem.Label]</label>
+							<label>$INFO[ListItem.Property(custom:sport)]</label>
+							<textcolor>black</textcolor>
+	    			</control>
+	    			<control type="label">
+							<posx>0</posx>
+							<posy>25</posy>
+							<width>175</width>
+							<height>25</height>
+							<font>font17</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Property(custom:league)]</label>
+							<textcolor>black</textcolor>
+	    			</control>
+	    			<control type="label">
+							<posx>180</posx>
+							<posy>0</posy>
+							<width>314</width>
+							<height>50</height>
+							<font>font17</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Property(custom:event)]</label>
 							<textcolor>black</textcolor>
 	    			</control>
 	    		</itemlayout>
-	    		<focusedlayout width="489" height="30">
+	    		<focusedlayout width="494" height="50">
 	       		<control type="image">
 	       			<visible>Control.HasFocus(100)</visible>
 		   				<posx>0</posx>
 		   				<posy>0</posy>
 		   				<width>494</width>
-		   				<height>30</height>
+		   				<height>50</height>
 		   				<texture>white.png</texture>
 		   				<colordiffuse>DD940000</colordiffuse>
 	       		</control>
@@ -95,12 +117,38 @@
 		   				<visible>!Control.HasFocus(100)</visible>
 		   				<posx>0</posx>
 		   				<posy>0</posy>
-		   				<width>494</width>
-		   				<height>30</height>
-		   				<font>font20</font>
+		   				<width>175</width>
+		   				<height>25</height>
+		   				<font>font17</font>
 		   				<align>left</align>
 		   				<aligny>center</aligny>
-		   				<label>$INFO[ListItem.Label]</label>
+		   				<label>$INFO[ListItem.Property(custom:sport)]</label>
+		   				<textcolor>black</textcolor>
+		   				<selectedcolor>DD940000</selectedcolor>
+	       		</control>
+	       		<control type="label">
+		   				<visible>!Control.HasFocus(100)</visible>
+		   				<posx>0</posx>
+		   				<posy>25</posy>
+		   				<width>175</width>
+		   				<height>25</height>
+		   				<font>font17</font>
+		   				<align>left</align>
+		   				<aligny>center</aligny>
+		   				<label>$INFO[ListItem.Property(custom:league)]</label>
+		   				<textcolor>black</textcolor>
+		   				<selectedcolor>DD940000</selectedcolor>
+	       		</control>
+	       		<control type="label">
+		   				<visible>!Control.HasFocus(100)</visible>
+		   				<posx>180</posx>
+		   				<posy>0</posy>
+		   				<width>314</width>
+		   				<height>50</height>
+		   				<font>font17</font>
+		   				<align>left</align>
+		   				<aligny>center</aligny>
+		   				<label>$INFO[ListItem.Property(custom:event)]</label>
 		   				<textcolor>black</textcolor>
 		   				<selectedcolor>DD940000</selectedcolor>
 	       		</control>
@@ -108,12 +156,42 @@
 		   				<visible>Control.HasFocus(100)</visible>   
 		   				<posx>0</posx>
 		   				<posy>0</posy>
-		   				<width>494</width>
-		   				<height>30</height>
-		   				<font>font20</font>
+		   				<width>175</width>
+		   				<height>25</height>
+		   				<font>font17</font>
 		   				<align>left</align>
 		   				<aligny>center</aligny>
-		   				<label>$INFO[ListItem.Label]</label>
+		   				<label>$INFO[ListItem.Property(custom:sport)]</label>
+		   				<textcolor>white</textcolor>
+		   				<selectedcolor>DD940000</selectedcolor>
+		   				<scroll>true</scroll>
+		   				<scrollspeed>30</scrollspeed>
+	       		</control>
+	       		<control type="label">
+		   				<visible>Control.HasFocus(100)</visible>   
+		   				<posx>0</posx>
+		   				<posy>25</posy>
+		   				<width>175</width>
+		   				<height>25</height>
+		   				<font>font17</font>
+		   				<align>left</align>
+		   				<aligny>center</aligny>
+		   				<label>$INFO[ListItem.Property(custom:league)]</label>
+		   				<textcolor>white</textcolor>
+		   				<selectedcolor>DD940000</selectedcolor>
+		   				<scroll>true</scroll>
+		   				<scrollspeed>30</scrollspeed>
+	       		</control>
+	       		<control type="label">
+		   				<visible>Control.HasFocus(100)</visible>   
+		   				<posx>180</posx>
+		   				<posy>0</posy>
+		   				<width>314</width>
+		   				<height>50</height>
+		   				<font>font17</font>
+		   				<align>left</align>
+		   				<aligny>center</aligny>
+		   				<label>$INFO[ListItem.Property(custom:event)]</label>
 		   				<textcolor>white</textcolor>
 		   				<selectedcolor>DD940000</selectedcolor>
 		   				<scroll>true</scroll>
@@ -141,16 +219,15 @@
             <posy>456</posy>
             <width>467</width>
             <height>70</height>
-            <font>light18</font>
+            <font>font18</font>
             <align>left</align>
             <aligny>center</aligny>
-            <label>$INFO[Container(100).ListItem.Property(custom:sport)] - $INFO[Container(100).ListItem.Property(custom:league)] - $INFO[Container(100).ListItem.Property(custom:event)] [CR] $INFO[Container(100).ListItem.Property(custom:date)] - $INFO[Container(100).ListItem.Property(custom:time)]</label>
+            <label> $INFO[Container(100).ListItem.Property(custom:event)][CR] $INFO[Container(100).ListItem.Property(custom:sport)] - $INFO[Container(100).ListItem.Property(custom:league)][CR] $INFO[Container(100).ListItem.Property(custom:date)] - $INFO[Container(100).ListItem.Property(custom:time)]</label>
             <background>grey</background>
             <textcolor>black</textcolor>
-            <wrapmultiline>true</wrapmultiline>
           </control>
         </control>
-        <control type="fixedlist" id="101">
+        <control type="panel" id="101">
         	<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
 	       		<effect type="fade" start="100" end="20" time="200"/>
 	   			</animation>
@@ -160,27 +237,48 @@
 	   			<height>118</height>
 	   			<onleft>100</onleft>
 	   			<orientation>vertical</orientation>
-	   			<focusposition>2</focusposition>
-	   			<itemlayout width="563" height="22">
+	   			<itemlayout width="553" height="23">
 	    			<control type="label">
 							<posx>0</posx>
 							<posy>0</posy>
-							<width>553</width>
-							<height>22</height>
-							<font>font17</font>
+							<width>95</width>
+							<height>23</height>
+							<font>font15</font>
 							<align>left</align>
 							<aligny>center</aligny>
-							<label>$INFO[ListItem.Property(custom:date)] - $INFO[ListItem.Property(custom:time)] - $INFO[ListItem.Property(custom:event)]</label>
+							<label>$INFO[ListItem.Property(custom:date)]</label>
+							<textcolor>black</textcolor>
+	    			</control>
+	    			<control type="label">
+							<posx>100</posx>
+							<posy>0</posy>
+							<width>115</width>
+							<height>23</height>
+							<font>font15</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Property(custom:time)]</label>
+							<textcolor>black</textcolor>
+	    			</control>
+	    			<control type="label">
+							<posx>220</posx>
+							<posy>0</posy>
+							<width>333</width>
+							<height>23</height>
+							<font>font15</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Property(custom:event)]</label>
 							<textcolor>black</textcolor>
 	    			</control>
 	    		</itemlayout>
-	    		<focusedlayout width="563" height="22">
+	    		<focusedlayout width="553" height="23">
 	       		<control type="image">
 	       			<visible>Control.HasFocus(101)</visible>
 		   				<posx>0</posx>
 		   				<posy>0</posy>
 		   				<width>553</width>
-		   				<height>25</height>
+		   				<height>23</height>
 		   				<texture>white.png</texture>
 		   				<colordiffuse>DD940000</colordiffuse>
 	       		</control>
@@ -188,12 +286,38 @@
 		   				<visible>!Control.HasFocus(101)</visible>
 		   				<posx>0</posx>
 		   				<posy>0</posy>
-		   				<width>553</width>
-		   				<height>22</height>
-		   				<font>font17</font>
+		   				<width>95</width>
+		   				<height>23</height>
+		   				<font>font15</font>
 		   				<align>left</align>
 		   				<aligny>center</aligny>
-		   				<label>$INFO[ListItem.Property(custom:date)] - $INFO[ListItem.Property(custom:time)] - $INFO[ListItem.Property(custom:event)]</label>
+		   				<label>$INFO[ListItem.Property(custom:date)]</label>
+		   				<textcolor>black</textcolor>
+		   				<selectedcolor>DD940000</selectedcolor>
+	       		</control>
+	       		<control type="label">
+		   				<visible>!Control.HasFocus(101)</visible>
+		   				<posx>100</posx>
+		   				<posy>0</posy>
+		   				<width>115</width>
+		   				<height>23</height>
+		   				<font>font15</font>
+		   				<align>left</align>
+		   				<aligny>center</aligny>
+		   				<label>$INFO[ListItem.Property(custom:time)]</label>
+		   				<textcolor>black</textcolor>
+		   				<selectedcolor>DD940000</selectedcolor>
+	       		</control>
+	       		<control type="label">
+		   				<visible>!Control.HasFocus(101)</visible>
+		   				<posx>220</posx>
+		   				<posy>0</posy>
+		   				<width>333</width>
+		   				<height>23</height>
+		   				<font>font15</font>
+		   				<align>left</align>
+		   				<aligny>center</aligny>
+		   				<label>$INFO[ListItem.Property(custom:event)]</label>
 		   				<textcolor>black</textcolor>
 		   				<selectedcolor>DD940000</selectedcolor>
 	       		</control>
@@ -201,12 +325,42 @@
 		   				<visible>Control.HasFocus(101)</visible>   
 		   				<posx>0</posx>
 		   				<posy>0</posy>
-		   				<width>553</width>
-		   				<height>22</height>
-		   				<font>font17</font>
+		   				<width>95</width>
+		   				<height>23</height>
+		   				<font>font15</font>
 		   				<align>left</align>
 		   				<aligny>center</aligny>
-		   				<label>$INFO[ListItem.Property(custom:date)] - $INFO[ListItem.Property(custom:time)] - $INFO[ListItem.Property(custom:event)]</label>
+		   				<label>$INFO[ListItem.Property(custom:date)]</label>
+		   				<textcolor>white</textcolor>
+		   				<selectedcolor>DD940000</selectedcolor>
+		   				<scroll>true</scroll>
+		   				<scrollspeed>30</scrollspeed>
+	       		</control>
+	       		<control type="label">
+		   				<visible>Control.HasFocus(101)</visible>   
+		   				<posx>100</posx>
+		   				<posy>0</posy>
+		   				<width>115</width>
+		   				<height>23</height>
+		   				<font>font15</font>
+		   				<align>left</align>
+		   				<aligny>center</aligny>
+		   				<label>$INFO[ListItem.Property(custom:time)]</label>
+		   				<textcolor>white</textcolor>
+		   				<selectedcolor>DD940000</selectedcolor>
+		   				<scroll>true</scroll>
+		   				<scrollspeed>30</scrollspeed>
+	       		</control>
+	       		<control type="label">
+		   				<visible>Control.HasFocus(101)</visible>   
+		   				<posx>220</posx>
+		   				<posy>0</posy>
+		   				<width>333</width>
+		   				<height>23</height>
+		   				<font>font15</font>
+		   				<align>left</align>
+		   				<aligny>center</aligny>
+		   				<label>$INFO[ListItem.Property(custom:event)]</label>
 		   				<textcolor>white</textcolor>
 		   				<selectedcolor>DD940000</selectedcolor>
 		   				<scroll>true</scroll>

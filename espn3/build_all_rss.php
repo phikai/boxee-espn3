@@ -5,6 +5,9 @@ $builddate = date("D, d M Y H:i:s O");
 //MySQL Connection Information
 include('/home/phikai/boxee.thinkonezero.com/mysql_connect.inc.php');
 
+//Other Fucntions
+include('/home/phikai/boxee.thinkonezero.com/espn3/build/scripts/functions.inc.php');
+
 //MySQL Connection for each Item
 mysql_connect($server,$username,$password);
 @mysql_select_db($database) or die( "Unable to select database");
@@ -38,7 +41,11 @@ $rss .= '<channel>'."\n";
 			$rss .= '<boxee:property name="custom:date">'.$results['date'].'</boxee:property>'."\n";
 			$rss .= '<boxee:property name="custom:time">'.$results['time'].' EST</boxee:property>'."\n";
 			$rss .= '<media:content url="flash://espn.go.com/src='.$content_url.'%3Fid%3D'.$results['event_id'].'%26league%3D'.$league_url.'&bx-jsactions='.$js_control.'" type="application/x-shockwave-flash" />'."\n";
-			$rss .= '<media:thumbnail url="'.$results['thumb'].'" />'."\n";
+			if (url_exists($results['thumb'])) {
+				$rss .= '<media:thumbnail url="'.$results['thumb'].'" />'."\n";
+			} else {
+				$rss .= '<media:thumbnail url="http://boxee.thinkonezero.com/espn3/build/thumbs/default.png" />'."\n";
+			}
 			$rss .= '<boxee:media-type expression="full" type="show" name="Live Sports"/>'."\n";			
 			$rss .= '<media:category scheme="urn:boxee:genre">sport</media:category>'."\n";
 			$rss .= '<boxee:release-date>'.$results['fulldate'].'</boxee:release-date>'."\n";
@@ -82,7 +89,11 @@ $rss .= '<channel>'."\n";
 			$rss .= '<boxee:property name="custom:date">'.$results['date'].'</boxee:property>'."\n";
 			$rss .= '<boxee:property name="custom:time">'.$results['time'].' EST</boxee:property>'."\n";
 			$rss .= '<media:content url="flash://espn.go.com/src='.$content_url.'%3Fid%3D'.$results['event_id'].'%26league%3D'.$league_url.'&bx-jsactions='.$js_control.'" type="application/x-shockwave-flash" />'."\n";
-			$rss .= '<media:thumbnail url="'.$results['thumb'].'" />'."\n";
+			if (url_exists($results['thumb'])) {
+				$rss .= '<media:thumbnail url="'.$results['thumb'].'" />'."\n";
+			} else {
+				$rss .= '<media:thumbnail url="http://boxee.thinkonezero.com/espn3/build/thumbs/default.png" />'."\n";
+			}
 			$rss .= '<boxee:media-type expression="full" type="show" name="Live Sports"/>'."\n";			
 			$rss .= '<media:category scheme="urn:boxee:genre">sport</media:category>'."\n";
 			$rss .= '<boxee:release-date>'.$results['fulldate'].'</boxee:release-date>'."\n";
@@ -124,7 +135,11 @@ $rss .= '<channel>'."\n";
 			$rss .= '<boxee:property name="custom:event">'.$results['event'].'</boxee:property>'."\n";
 			$rss .= '<boxee:property name="custom:date">'.$results['date'].'</boxee:property>'."\n";
 			$rss .= '<boxee:property name="custom:time">'.$results['time'].' EST</boxee:property>'."\n";
-			$rss .= '<media:thumbnail url="'.$results['thumb'].'" />'."\n";
+			if (url_exists($results['thumb'])) {
+				$rss .= '<media:thumbnail url="'.$results['thumb'].'" />'."\n";
+			} else {
+				$rss .= '<media:thumbnail url="http://boxee.thinkonezero.com/espn3/build/thumbs/default.png" />'."\n";
+			}
 			$rss .= '<boxee:media-type expression="full" type="show" name="Live Sports"/>'."\n";			
 			$rss .= '<media:category scheme="urn:boxee:genre">sport</media:category>'."\n";
 			$rss .= '<boxee:release-date>'.$results['fulldate'].'</boxee:release-date>'."\n";
