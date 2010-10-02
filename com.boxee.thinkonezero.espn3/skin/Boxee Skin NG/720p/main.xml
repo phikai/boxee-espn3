@@ -1,5 +1,11 @@
 <?xml version="1.0"?>
 	<window type="window" id="14000">
+		<onload lang="python"><![CDATA[
+import tracker
+
+myTracker = tracker.Tracker("UA-3541558-10")
+myTracker.trackView("espn3-home")
+]]></onload>
 		<defaultcontrol always="true">100</defaultcontrol>
 		<allowoverlay>no</allowoverlay>
 		<controls>
@@ -48,15 +54,62 @@
   	      	<height>32</height>
     	    	<width>92</width>
 	        	<ondown>100</ondown>
+	        	<onright>300</onright>
 	        	<visible>true</visible>
       	  	<texturefocus>button_live_glow.png</texturefocus>
       	  	<texturenofocus>button_live_selected.png</texturenofocus>
         		<alttexturefocus>button_replay_glow.png</alttexturefocus>
         		<alttexturenofocus>button_replay_selected.png</alttexturenofocus>
-  	      	<onclick>Container.SetPath(100,http://boxee.thinkonezero.com/espn3/rss_replay.xml)</onclick>
-  	      	<altclick>Container.SetPath(100,http://boxee.thinkonezero.com/espn3/rss_live.xml)</altclick>
+  	      	<onclick lang="python"><![CDATA[
+list = mc.GetActiveWindow().GetList(100)
+list.SetContentURL("http://boxee.thinkonezero.com/espn3/rss_replay.xml")
+
+myTracker.trackEvent("Content", "Click", "Replay")
+]]></onclick>	
+  	      	<altclick lang="python"><![CDATA[
+list = mc.GetActiveWindow().GetList(100)
+list.SetContentURL("http://boxee.thinkonezero.com/espn3/rss_live.xml")
+
+myTracker.trackEvent("Content", "Click", "Live")
+]]></altclick>
     	    </control>
         </control>
+        <!--<control type="group" id="300">
+        	<control type="button" id="1300">
+        		<posx>1096</posx>
+	        	<posy>25</posy>
+  	      	<height>53</height>
+    	    	<width>153</width>
+	        	<ondown>100</ondown>
+	        	<onleft>200</onleft>
+	        	<visible>true</visible>
+      	  	<texturefocus>button_login_glow.png</texturefocus>
+      	  	<texturenofocus>button_login.png</texturenofocus>
+      	  	<alttexturefocus>button_logout_glow.png</alttexturefocus>
+        		<alttexturenofocus>button_logout.png</alttexturenofocus>
+  	      	<onclick lang="python"><![CDATA[
+myTracker.trackEvent("Action", "Click", "Login")
+
+emailaddress = mc.ShowDialogKeyboard("Email", "", False)
+userpassword = mc.ShowDialogKeyboard("Password", "", True)
+if emailaddress and userpassword:
+	config = mc.GetApp().GetLocalConfig()
+	config.SetValue("username", emailaddress)
+	config.SetValue("password", userpassword)
+	mc.ShowDialogNotification("Credentials stored.")
+       # Insert login code here
+else:
+	mc.ShowDialogNotification("Please enter username and password.")
+]]></onclick>
+						<altclick lang="python"><![CDATA[
+myTracker.trackEvent("Action", "Click", "Logout")
+
+config = mc.GetApp().GetLocalConfig()
+config.ResetAll()	
+mc.ShowDialogNotification("Logging out...")
+]]></altclick>
+					</control>
+        </control>-->       
         <control type="panel" id="100">
         	<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
 	       		<effect type="fade" start="100" end="20" time="200"/>
@@ -199,6 +252,13 @@
 	       		</control>
 	    		</focusedlayout>
 	    		<content type="url" url="http://boxee.thinkonezero.com/espn3/rss_live.xml">
+	    			<onclick lang="python"><![CDATA[
+n = mc.GetActiveWindow().GetList(100).GetFocusedItem()
+listitem = mc.GetActiveWindow().GetList(100).GetItem(n)
+
+myTracker.trackEvent("Event", "Play", listitem.GetProperty("event"))
+mc.GetPlayer().Play(listitem)
+]]></onclick>
 	    		</content>
 				</control>
         <control type="group">
