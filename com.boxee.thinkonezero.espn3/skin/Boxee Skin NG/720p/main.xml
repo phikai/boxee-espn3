@@ -3,7 +3,7 @@
 		<onload lang="python"><![CDATA[
 import tracker
 
-myTracker = tracker.Tracker("UA-3541558-10")
+myTracker = tracker.Tracker("MO-3541558-10")
 myTracker.trackView("espn3-home")
 ]]></onload>
 		<defaultcontrol always="true">100</defaultcontrol>
