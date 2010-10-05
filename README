@@ -1,0 +1,28 @@
++---------------------------------------+
+|			  Think One Zero			|
+|	  http://boxee.thinkonezero.com		|
+|	  boxee[AT]thinkonezero[DOT]com		|
++---------------------------------------+
+
+Github Information
+User: phikai
+Branch:  phikai / boxee-espn3  
+
+Repository Information:
+URL: http://repository.boxee.thinkonezero.com
+The Think One Zero Repository contains all boxee applications developed
+and supported by Think One Zero.
+
+The apps:
+* ESPN3: http://espn3.com
+
+== Install ==
+
+Since these aren't yet in the official repository, you need to 
+add "http://repositroy.boxee.thinkonezero.com" as a 3rd party repository first
+
+1. Apps
+2. Add Repository (all the way on the bottom in the left pane 
+3. http://repositroy.boxee.thinkonezero.com
+
+You'll then be able to see all apps in the repository and add them to your apps.
