@@ -10,8 +10,14 @@ mysql_connect($server,$username,$password);
 //Set XML Errors Off
 libxml_use_internal_errors(true);
 
+//Set endDate for Greater Feed Accuracy
+$endDate = date('Ymd');
+
+//Set URL for Live Feed
+$livefeed = 'http://sports-ak.espn.go.com/espn3/feeds/live?endDate='.$endDate;
+
 //Get the XML Source of ESPN3 Live Feed
-$xml = file_get_contents('http://sports-ak.espn.go.com/espn3/feeds/live');
+$xml = file_get_contents($livefeed);
 $enc = mb_detect_encoding($xml);
 $xml = mb_convert_encoding($xml, 'UTF-8', $enc);
 $e3_live_xml = new SimpleXMLElement($xml);
