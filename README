@@ -15,6 +15,13 @@ and supported by Think One Zero.
 
 The apps:
 * ESPN3: http://espn3.com
+* FilmCow: http://filmcow.com
+* Red vs. Blue: http://redvsblue.com
+
+== About ESPN3 App ==
+The ESPN3 App is based around their content sources parsed by the PHP scripts
+and then used to create a Boxee Application. It tries to maintain the same 
+availability of content that is present at ESPN3.com
 
 == Install ==
 
