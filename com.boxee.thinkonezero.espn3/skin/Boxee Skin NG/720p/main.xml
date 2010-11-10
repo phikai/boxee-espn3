@@ -392,8 +392,6 @@ mc.GetPlayer().Play(listitem)
 					</focusedlayout>
 					<content type="url" url="http://boxee.thinkonezero.com/espn3/feeds/replay.xml">
 						<onclick lang="python"><![CDATA[
-mc.GetActiveWindow().GetControl(111).SetVisible(True)
-mc.GetWindow(14000).GetControl(111).SetFocus()
 list = mc.GetWindow(14000).GetList(111)
 listitems = list.GetItems()
 listitem = listitems[list.GetFocusedItem()]
