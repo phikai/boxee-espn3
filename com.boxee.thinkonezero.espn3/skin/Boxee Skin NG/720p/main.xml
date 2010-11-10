@@ -1,10 +1,27 @@
 <?xml version="1.0"?>
 	<window type="window" id="14000">
+<!--	
+		<onload lang="python"><![CDATA[
+import tracker
+import login
+
+config = mc.GetApp().GetLocalConfig()
+uname = config.GetValue("username")
+pword = config.GetValue("password")
+
+if uname:
+	mc.ShowDialogNotification("Logging in...")
+	login.login(uname, pword)
+
+myTracker = tracker.Tracker("MO-3541558-10")
+myTracker.trackView("espn3-home")
+]]></onload>
+-->
 		<onload lang="python"><![CDATA[
 import tracker
 
 myTracker = tracker.Tracker("MO-3541558-10")
-myTracker.trackView("espn3-home")
+myTracker.trackView("home")
 ]]></onload>
 		<defaultcontrol always="true">100</defaultcontrol>
 		<allowoverlay>no</allowoverlay>
@@ -12,117 +29,134 @@ myTracker.trackView("espn3-home")
 			<control type="group">
 				<control type="image">
 					<posx>0</posx>
-          <posy>0</posy>
-          <width>1280</width>
-          <height>720</height>
-          <texture>espn3_bg.png</texture>
-        </control>
-        <control type="image">
-        	<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
-        		<effect type="fade" start="100" end="20" time="200"/>
-        	</animation>
-        	<posx>61</posx>
-          <posy>190</posy>
-          <width>504</width>
-          <height>457</height>
-          <texture>espn3_event_list.png</texture>
-        </control>
-        <control type="image">
-        	<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
-	        	<effect type="fade" start="100" end="20" time="200"/>
-	     		</animation>
-          <posx>695</posx>
-          <posy>193</posy>
-          <width>480</width>
-          <height>337</height>
-          <texture>espn3_event_details.png</texture>
-        </control>
-        <control type="image">
-        	<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
-	        	<effect type="fade" start="100" end="20" time="200"/>
-	     		</animation>
-          <posx>653</posx>
-          <posy>595</posy>
-          <width>563</width>
-          <height>118</height>
-          <texture>espn3_event_upcoming.png</texture>
-        </control>
-        <control type="group" id="200">
-        	<control type="togglebutton" id="1200">
-        		<posx>55</posx>
-	        	<posy>103</posy>
-  	      	<height>32</height>
-    	    	<width>92</width>
-	        	<ondown>100</ondown>
-	        	<onright>300</onright>
-	        	<visible>true</visible>
-      	  	<texturefocus>button_live_glow.png</texturefocus>
-      	  	<texturenofocus>button_live_selected.png</texturenofocus>
-        		<alttexturefocus>button_replay_glow.png</alttexturefocus>
-        		<alttexturenofocus>button_replay_selected.png</alttexturenofocus>
-  	      	<onclick lang="python"><![CDATA[
-list = mc.GetActiveWindow().GetList(100)
-list.SetContentURL("http://boxee.thinkonezero.com/espn3/rss_replay.xml")
+					<posy>0</posy>
+					<width>1280</width>
+					<height>720</height>
+					<texture>espn3_bg.png</texture>
+				</control>
+				<control type="image">
+					<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
+						<effect type="fade" start="100" end="20" time="200"/>
+					</animation>
+					<posx>61</posx>
+					<posy>190</posy>
+					<width>504</width>
+					<height>457</height>
+					<texture>espn3_event_list.png</texture>
+				</control>
+				<control type="image">
+					<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
+						<effect type="fade" start="100" end="20" time="200"/>
+					</animation>
+				<posx>695</posx>
+				<posy>193</posy>
+				<width>480</width>
+				<height>337</height>
+				<texture>espn3_event_details.png</texture>
+				</control>
+				<control type="image">
+					<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
+						<effect type="fade" start="100" end="20" time="200"/>
+					</animation>
+					<posx>653</posx>
+					<posy>595</posy>
+					<width>563</width>
+					<height>118</height>
+					<texture>espn3_event_upcoming.png</texture>
+				</control>
+				<control type="group" id="200">
+					<control type="togglebutton" id="1200">
+					<posx>55</posx>
+					<posy>103</posy>
+					<height>32</height>
+					<width>92</width>
+					<ondown>100</ondown>
+					<visible>true</visible>
+					<texturefocus>button_live_glow.png</texturefocus>
+					<texturenofocus>button_live_selected.png</texturenofocus>
+					<alttexturefocus>button_replay_glow.png</alttexturefocus>
+					<alttexturenofocus>button_replay_selected.png</alttexturenofocus>
+					<onclick lang="python"><![CDATA[
+mc.GetWindow(14000).GetControl(100).SetVisible(False)
+mc.GetWindow(14000).GetControl(1000).SetVisible(False)
+mc.GetWindow(14000).GetControl(111).SetVisible(True)
+mc.GetWindow(14000).GetControl(1111).SetVisible(True)
+mc.GetWindow(14000).GetControl(111).SetFocus()
 
 myTracker.trackEvent("Content", "Click", "Replay")
 ]]></onclick>	
-  	      	<altclick lang="python"><![CDATA[
-list = mc.GetActiveWindow().GetList(100)
-list.SetContentURL("http://boxee.thinkonezero.com/espn3/rss_live.xml")
+					<altclick lang="python"><![CDATA[
+mc.GetWindow(14000).GetControl(111).SetVisible(False)
+mc.GetWindow(14000).GetControl(1111).SetVisible(False)
+mc.GetWindow(14000).GetControl(100).SetVisible(True)
+mc.GetWindow(14000).GetControl(1000).SetVisible(True)
+mc.GetWindow(14000).GetControl(100).SetFocus()
 
 myTracker.trackEvent("Content", "Click", "Live")
 ]]></altclick>
-    	    </control>
-        </control>
-        <!--<control type="group" id="300">
-        	<control type="button" id="1300">
-        		<posx>1096</posx>
-	        	<posy>25</posy>
-  	      	<height>53</height>
-    	    	<width>153</width>
-	        	<ondown>100</ondown>
-	        	<onleft>200</onleft>
-	        	<visible>true</visible>
-      	  	<texturefocus>button_login_glow.png</texturefocus>
-      	  	<texturenofocus>button_login.png</texturenofocus>
-      	  	<alttexturefocus>button_logout_glow.png</alttexturefocus>
-        		<alttexturenofocus>button_logout.png</alttexturenofocus>
-  	      	<onclick lang="python"><![CDATA[
+					</control>
+				</control>
+<!--				
+				<control type="group" id="300">
+					<control type="button" id="1300">
+						<posx>938</posx>
+						<posy>25</posy>
+						<height>53</height>
+						<width>153</width>
+						<ondown>100</ondown>
+						<onleft>200</onleft>
+						<onright>1301</onright>
+						<visible>true</visible>
+						<texturefocus>button_login_glow.png</texturefocus>
+						<texturenofocus>button_login.png</texturenofocus>
+						<onclick lang="python"><![CDATA[
 myTracker.trackEvent("Action", "Click", "Login")
 
-emailaddress = mc.ShowDialogKeyboard("Email", "", False)
-userpassword = mc.ShowDialogKeyboard("Password", "", True)
-if emailaddress and userpassword:
+uname = mc.ShowDialogKeyboard("Email", "", False)
+pword = mc.ShowDialogKeyboard("Password", "", True)
+if uname and pword:
 	config = mc.GetApp().GetLocalConfig()
-	config.SetValue("username", emailaddress)
-	config.SetValue("password", userpassword)
+	config.SetValue("username", uname)
+	config.SetValue("password", pword)
 	mc.ShowDialogNotification("Credentials stored.")
-       # Insert login code here
+	login.login(uname, pword)
 else:
-	mc.ShowDialogNotification("Please enter username and password.")
+	mc.ShowDialogNotification("Please enter username and password.")	
 ]]></onclick>
-						<altclick lang="python"><![CDATA[
+					</control>
+					<control type="button" id="1301">
+						<posx>1096</posx>
+						<posy>25</posy>
+						<height>53</height>
+						<width>153</width>
+						<ondown>100</ondown>
+						<onleft>1300</onleft>
+						<visible>true</visible>
+						<texturefocus>button_logout_glow.png</texturefocus>
+						<texturenofocus>button_logout.png</texturenofocus>
+						<onclick lang="python"><![CDATA[
 myTracker.trackEvent("Action", "Click", "Logout")
 
 config = mc.GetApp().GetLocalConfig()
 config.ResetAll()	
 mc.ShowDialogNotification("Logging out...")
-]]></altclick>
+]]></onclick>
 					</control>
-        </control>-->       
-        <control type="panel" id="100">
-        	<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
-	       		<effect type="fade" start="100" end="20" time="200"/>
-	   			</animation>
-	   			<posx>66</posx>
-	   			<posy>190</posy>
-	   			<width>504</width>
-	   			<height>457</height>
-	   			<onup>200</onup>
-	   			<onright>101</onright>
-	   			<orientation>vertical</orientation>
-	   			<itemlayout width="494" height="50">
-	    			<control type="label">
+				</control>
+-->
+				<control type="panel" id="100">
+					<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
+						<effect type="fade" start="100" end="20" time="200"/>
+					</animation>
+					<posx>66</posx>
+					<posy>190</posy>
+					<width>504</width>
+					<height>457</height>
+					<onup>200</onup>
+					<onright>101</onright>
+					<orientation>vertical</orientation>
+					<itemlayout width="494" height="50">
+						<control type="label">
 							<posx>0</posx>
 							<posy>0</posy>
 							<width>175</width>
@@ -132,8 +166,8 @@ mc.ShowDialogNotification("Logging out...")
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Property(custom:sport)]</label>
 							<textcolor>black</textcolor>
-	    			</control>
-	    			<control type="label">
+						</control>
+						<control type="label">
 							<posx>0</posx>
 							<posy>25</posy>
 							<width>175</width>
@@ -143,8 +177,8 @@ mc.ShowDialogNotification("Logging out...")
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Property(custom:league)]</label>
 							<textcolor>black</textcolor>
-	    			</control>
-	    			<control type="label">
+						</control>
+						<control type="label">
 							<posx>180</posx>
 							<posy>0</posy>
 							<width>314</width>
@@ -154,151 +188,260 @@ mc.ShowDialogNotification("Logging out...")
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Property(custom:event)]</label>
 							<textcolor>black</textcolor>
-	    			</control>
-	    		</itemlayout>
-	    		<focusedlayout width="494" height="50">
-	       		<control type="image">
-	       			<visible>Control.HasFocus(100)</visible>
-		   				<posx>0</posx>
-		   				<posy>0</posy>
-		   				<width>494</width>
-		   				<height>50</height>
-		   				<texture>white.png</texture>
-		   				<colordiffuse>DD940000</colordiffuse>
-	       		</control>
-	       		<control type="label">
-		   				<visible>!Control.HasFocus(100)</visible>
-		   				<posx>0</posx>
-		   				<posy>0</posy>
-		   				<width>175</width>
-		   				<height>25</height>
-		   				<font>font17</font>
-		   				<align>left</align>
-		   				<aligny>center</aligny>
-		   				<label>$INFO[ListItem.Property(custom:sport)]</label>
-		   				<textcolor>black</textcolor>
-		   				<selectedcolor>DD940000</selectedcolor>
-	       		</control>
-	       		<control type="label">
-		   				<visible>!Control.HasFocus(100)</visible>
-		   				<posx>0</posx>
-		   				<posy>25</posy>
-		   				<width>175</width>
-		   				<height>25</height>
-		   				<font>font17</font>
-		   				<align>left</align>
-		   				<aligny>center</aligny>
-		   				<label>$INFO[ListItem.Property(custom:league)]</label>
-		   				<textcolor>black</textcolor>
-		   				<selectedcolor>DD940000</selectedcolor>
-	       		</control>
-	       		<control type="label">
-		   				<visible>!Control.HasFocus(100)</visible>
-		   				<posx>180</posx>
-		   				<posy>0</posy>
-		   				<width>314</width>
-		   				<height>50</height>
-		   				<font>font17</font>
-		   				<align>left</align>
-		   				<aligny>center</aligny>
-		   				<label>$INFO[ListItem.Property(custom:event)]</label>
-		   				<textcolor>black</textcolor>
-		   				<selectedcolor>DD940000</selectedcolor>
-	       		</control>
-	       		<control type="label">
-		   				<visible>Control.HasFocus(100)</visible>   
-		   				<posx>0</posx>
-		   				<posy>0</posy>
-		   				<width>175</width>
-		   				<height>25</height>
-		   				<font>font17</font>
-		   				<align>left</align>
-		   				<aligny>center</aligny>
-		   				<label>$INFO[ListItem.Property(custom:sport)]</label>
-		   				<textcolor>white</textcolor>
-		   				<selectedcolor>DD940000</selectedcolor>
-		   				<scroll>true</scroll>
-		   				<scrollspeed>30</scrollspeed>
-	       		</control>
-	       		<control type="label">
-		   				<visible>Control.HasFocus(100)</visible>   
-		   				<posx>0</posx>
-		   				<posy>25</posy>
-		   				<width>175</width>
-		   				<height>25</height>
-		   				<font>font17</font>
-		   				<align>left</align>
-		   				<aligny>center</aligny>
-		   				<label>$INFO[ListItem.Property(custom:league)]</label>
-		   				<textcolor>white</textcolor>
-		   				<selectedcolor>DD940000</selectedcolor>
-		   				<scroll>true</scroll>
-		   				<scrollspeed>30</scrollspeed>
-	       		</control>
-	       		<control type="label">
-		   				<visible>Control.HasFocus(100)</visible>   
-		   				<posx>180</posx>
-		   				<posy>0</posy>
-		   				<width>314</width>
-		   				<height>50</height>
-		   				<font>font17</font>
-		   				<align>left</align>
-		   				<aligny>center</aligny>
-		   				<label>$INFO[ListItem.Property(custom:event)]</label>
-		   				<textcolor>white</textcolor>
-		   				<selectedcolor>DD940000</selectedcolor>
-		   				<scroll>true</scroll>
-		   				<scrollspeed>30</scrollspeed>
-	       		</control>
-	    		</focusedlayout>
-	    		<content type="url" url="http://boxee.thinkonezero.com/espn3/rss_live.xml">
-	    			<onclick lang="python"><![CDATA[
+						</control>
+					</itemlayout>
+					<focusedlayout width="494" height="50">
+						<control type="image">
+							<visible>Control.HasFocus(100)</visible>
+							<posx>0</posx>
+							<posy>0</posy>
+							<width>494</width>
+							<height>50</height>
+							<texture>white.png</texture>
+							<colordiffuse>DD940000</colordiffuse>
+						</control>
+						<control type="label">
+							<visible>!Control.HasFocus(100)</visible>
+							<posx>0</posx>
+							<posy>0</posy>
+							<width>175</width>
+							<height>25</height>
+							<font>font17</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Property(custom:sport)]</label>
+							<textcolor>black</textcolor>
+							<selectedcolor>DD940000</selectedcolor>
+						</control>
+						<control type="label">
+							<visible>!Control.HasFocus(100)</visible>
+							<posx>0</posx>
+							<posy>25</posy>
+							<width>175</width>
+							<height>25</height>
+							<font>font17</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Property(custom:league)]</label>
+							<textcolor>black</textcolor>
+							<selectedcolor>DD940000</selectedcolor>
+						</control>
+						<control type="label">
+							<visible>!Control.HasFocus(100)</visible>
+							<posx>180</posx>
+							<posy>0</posy>
+							<width>314</width>
+							<height>50</height>
+							<font>font17</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Property(custom:event)]</label>
+							<textcolor>black</textcolor>
+							<selectedcolor>DD940000</selectedcolor>
+						</control>
+						<control type="label">
+							<visible>Control.HasFocus(100)</visible>   
+							<posx>0</posx>
+							<posy>0</posy>
+							<width>175</width>
+							<height>25</height>
+							<font>font17</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Property(custom:sport)]</label>
+							<textcolor>white</textcolor>
+							<selectedcolor>DD940000</selectedcolor>
+							<scroll>true</scroll>
+							<scrollspeed>30</scrollspeed>
+						</control>
+						<control type="label">
+							<visible>Control.HasFocus(100)</visible>   
+							<posx>0</posx>
+							<posy>25</posy>
+							<width>175</width>
+							<height>25</height>
+							<font>font17</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Property(custom:league)]</label>
+							<textcolor>white</textcolor>
+							<selectedcolor>DD940000</selectedcolor>
+							<scroll>true</scroll>
+							<scrollspeed>30</scrollspeed>
+						</control>
+						<control type="label">
+							<visible>Control.HasFocus(100)</visible>   
+							<posx>180</posx>
+							<posy>0</posy>
+							<width>314</width>
+							<height>50</height>
+							<font>font17</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Property(custom:event)]</label>
+							<textcolor>white</textcolor>
+							<selectedcolor>DD940000</selectedcolor>
+							<scroll>true</scroll>
+							<scrollspeed>30</scrollspeed>
+						</control>
+					</focusedlayout>
+					<content type="url" url="http://boxee.thinkonezero.com/espn3/feeds/live.xml">
+						<onclick lang="python"><![CDATA[
 n = mc.GetActiveWindow().GetList(100).GetFocusedItem()
 listitem = mc.GetActiveWindow().GetList(100).GetItem(n)
 
 myTracker.trackEvent("Event", "Play", listitem.GetProperty("event"))
 mc.GetPlayer().Play(listitem)
 ]]></onclick>
-	    		</content>
+					</content>
 				</control>
-        <control type="group">
-        	<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
-	      		<effect type="fade" start="100" end="20" time="200"/>
+				<control type="group" id="1000">
+					<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
+						<effect type="fade" start="100" end="20" time="200"/>
 					</animation>
-          <control type="image">
-          	<visible>true</visible>
-            <posx>700</posx>
-            <posy>199</posy>
-            <width>470</width>
-            <height>263</height>
-            <texture>$INFO[Container(100).ListItem.Thumb]</texture>
-          </control>
-          <control type="label">
-          	<visible>true</visible>
-            <posx>700</posx>
-            <posy>456</posy>
-            <width>467</width>
-            <height>70</height>
-            <font>font18</font>
-            <align>left</align>
-            <aligny>center</aligny>
-            <label> $INFO[Container(100).ListItem.Property(custom:event)][CR] $INFO[Container(100).ListItem.Property(custom:sport)] - $INFO[Container(100).ListItem.Property(custom:league)][CR] $INFO[Container(100).ListItem.Property(custom:date)] - $INFO[Container(100).ListItem.Property(custom:time)]</label>
-            <background>grey</background>
-            <textcolor>black</textcolor>
-          </control>
-        </control>
-        <control type="panel" id="101">
-        	<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
-	       		<effect type="fade" start="100" end="20" time="200"/>
-	   			</animation>
-	   			<posx>658</posx>
-	   			<posy>595</posy>
-	   			<width>563</width>
-	   			<height>118</height>
-	   			<onleft>100</onleft>
-	   			<orientation>vertical</orientation>
-	   			<itemlayout width="553" height="23">
-	    			<control type="label">
+					<control type="image">
+						<visible>true</visible>
+						<posx>700</posx>
+						<posy>199</posy>
+						<width>470</width>
+						<height>263</height>
+						<texture>$INFO[Container(100).ListItem.Thumb]</texture>
+					</control>
+					<control type="label">
+						<visible>true</visible>
+						<posx>700</posx>
+						<posy>456</posy>
+						<width>467</width>
+						<height>70</height>
+						<font>font18</font>
+						<align>left</align>
+						<aligny>center</aligny>
+						<label> $INFO[Container(100).ListItem.Property(custom:event)][CR] $INFO[Container(100).ListItem.Property(custom:sport)] - $INFO[Container(100).ListItem.Property(custom:league)][CR] $INFO[Container(100).ListItem.Property(custom:date)] - $INFO[Container(100).ListItem.Property(custom:time)]</label>
+						<background>grey</background>
+						<textcolor>black</textcolor>
+					</control>
+				</control>
+				<control type="panel" id="111">
+					<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
+						<effect type="fade" start="100" end="20" time="200"/>
+					</animation>
+					<posx>66</posx>
+					<posy>190</posy>
+					<width>504</width>
+					<height>457</height>
+					<onup>200</onup>
+					<onright>101</onright>
+					<orientation>vertical</orientation>
+					<visible>false</visible>
+					<itemlayout width="494" height="50">
+						<control type="label">
+							<posx>0</posx>
+							<posy>0</posy>
+							<width>494</width>
+							<height>50</height>
+							<font>font17</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Label]</label>
+							<textcolor>black</textcolor>
+						</control>
+					</itemlayout>
+					<focusedlayout width="494" height="50">
+						<control type="image">
+							<visible>Control.HasFocus(111)</visible>
+							<posx>0</posx>
+							<posy>0</posy>
+							<width>494</width>
+							<height>50</height>
+							<texture>white.png</texture>
+							<colordiffuse>DD940000</colordiffuse>
+						</control>
+						<control type="label">
+							<visible>!Control.HasFocus(111)</visible>
+							<posx>0</posx>
+							<posy>0</posy>
+							<width>494</width>
+							<height>50</height>
+							<font>font17</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Label]</label>
+							<textcolor>black</textcolor>
+							<selectedcolor>DD940000</selectedcolor>
+						</control>
+						<control type="label">
+							<visible>Control.HasFocus(111)</visible>   
+							<posx>0</posx>
+							<posy>0</posy>
+							<width>494</width>
+							<height>50</height>
+							<font>font17</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Label]</label>
+							<textcolor>white</textcolor>
+							<selectedcolor>DD940000</selectedcolor>
+							<scroll>true</scroll>
+							<scrollspeed>30</scrollspeed>
+						</control>
+					</focusedlayout>
+					<content type="url" url="http://boxee.thinkonezero.com/espn3/feeds/replay.xml">
+						<onclick lang="python"><![CDATA[
+mc.GetActiveWindow().GetControl(111).SetVisible(True)
+mc.GetWindow(14000).GetControl(111).SetFocus()
+list = mc.GetWindow(14000).GetList(111)
+listitems = list.GetItems()
+listitem = listitems[list.GetFocusedItem()]
+params = mc.Parameters()
+params["link"] = str( listitem.GetPath() )
+linktype = params["link"].split('://')
+if (linktype[0] == "rss"):
+    mc.GetWindow(14000).PushState()
+    mc.GetWindow(14000).GetList(111).SetContentURL( params["link"])
+else:
+	myTracker.trackEvent("Event", "Play", listitem.GetProperty("event"))
+	mc.GetPlayer().Play(listitem)
+]]></onclick>
+					</content>
+				</control>
+				<control type="group" id="1111">
+					<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
+						<effect type="fade" start="100" end="20" time="200"/>
+					</animation>
+					<control type="image">
+						<visible>true</visible>
+						<posx>700</posx>
+						<posy>199</posy>
+						<width>470</width>
+						<height>263</height>
+						<texture>$INFO[Container(111).ListItem.Thumb]</texture>
+					</control>
+					<control type="label">
+						<visible>true</visible>
+						<posx>700</posx>
+						<posy>456</posy>
+						<width>467</width>
+						<height>70</height>
+						<font>font18</font>
+						<align>left</align>
+						<aligny>center</aligny>
+						<label> $INFO[Container(111).ListItem.Property(custom:event)][CR] $INFO[Container(111).ListItem.Property(custom:sport)] - $INFO[Container(111).ListItem.Property(custom:league)][CR] $INFO[Container(111).ListItem.Property(custom:date)] - $INFO[Container(111).ListItem.Property(custom:time)]</label>
+						<background>grey</background>
+						<textcolor>black</textcolor>
+					</control>
+				</control>
+				<control type="panel" id="101">
+					<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
+						<effect type="fade" start="100" end="20" time="200"/>
+					</animation>
+					<posx>658</posx>
+					<posy>595</posy>
+					<width>563</width>
+					<height>118</height>
+					<onleft>100</onleft>
+					<orientation>vertical</orientation>
+					<itemlayout width="553" height="23">
+						<control type="label">
 							<posx>0</posx>
 							<posy>0</posy>
 							<width>95</width>
@@ -308,8 +451,8 @@ mc.GetPlayer().Play(listitem)
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Property(custom:date)]</label>
 							<textcolor>black</textcolor>
-	    			</control>
-	    			<control type="label">
+						</control>
+						<control type="label">
 							<posx>100</posx>
 							<posy>0</posy>
 							<width>115</width>
@@ -319,8 +462,8 @@ mc.GetPlayer().Play(listitem)
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Property(custom:time)]</label>
 							<textcolor>black</textcolor>
-	    			</control>
-	    			<control type="label">
+						</control>
+						<control type="label">
 							<posx>220</posx>
 							<posy>0</posy>
 							<width>333</width>
@@ -330,106 +473,106 @@ mc.GetPlayer().Play(listitem)
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Property(custom:event)]</label>
 							<textcolor>black</textcolor>
-	    			</control>
-	    		</itemlayout>
-	    		<focusedlayout width="553" height="23">
-	       		<control type="image">
-	       			<visible>Control.HasFocus(101)</visible>
-		   				<posx>0</posx>
-		   				<posy>0</posy>
-		   				<width>553</width>
-		   				<height>23</height>
-		   				<texture>white.png</texture>
-		   				<colordiffuse>DD940000</colordiffuse>
-	       		</control>
-	       		<control type="label">
-		   				<visible>!Control.HasFocus(101)</visible>
-		   				<posx>0</posx>
-		   				<posy>0</posy>
-		   				<width>95</width>
-		   				<height>23</height>
-		   				<font>font15</font>
-		   				<align>left</align>
-		   				<aligny>center</aligny>
-		   				<label>$INFO[ListItem.Property(custom:date)]</label>
-		   				<textcolor>black</textcolor>
-		   				<selectedcolor>DD940000</selectedcolor>
-	       		</control>
-	       		<control type="label">
-		   				<visible>!Control.HasFocus(101)</visible>
-		   				<posx>100</posx>
-		   				<posy>0</posy>
-		   				<width>115</width>
-		   				<height>23</height>
-		   				<font>font15</font>
-		   				<align>left</align>
-		   				<aligny>center</aligny>
-		   				<label>$INFO[ListItem.Property(custom:time)]</label>
-		   				<textcolor>black</textcolor>
-		   				<selectedcolor>DD940000</selectedcolor>
-	       		</control>
-	       		<control type="label">
-		   				<visible>!Control.HasFocus(101)</visible>
-		   				<posx>220</posx>
-		   				<posy>0</posy>
-		   				<width>333</width>
-		   				<height>23</height>
-		   				<font>font15</font>
-		   				<align>left</align>
-		   				<aligny>center</aligny>
-		   				<label>$INFO[ListItem.Property(custom:event)]</label>
-		   				<textcolor>black</textcolor>
-		   				<selectedcolor>DD940000</selectedcolor>
-	       		</control>
-	       		<control type="label">
-		   				<visible>Control.HasFocus(101)</visible>   
-		   				<posx>0</posx>
-		   				<posy>0</posy>
-		   				<width>95</width>
-		   				<height>23</height>
-		   				<font>font15</font>
-		   				<align>left</align>
-		   				<aligny>center</aligny>
-		   				<label>$INFO[ListItem.Property(custom:date)]</label>
-		   				<textcolor>white</textcolor>
-		   				<selectedcolor>DD940000</selectedcolor>
-		   				<scroll>true</scroll>
-		   				<scrollspeed>30</scrollspeed>
-	       		</control>
-	       		<control type="label">
-		   				<visible>Control.HasFocus(101)</visible>   
-		   				<posx>100</posx>
-		   				<posy>0</posy>
-		   				<width>115</width>
-		   				<height>23</height>
-		   				<font>font15</font>
-		   				<align>left</align>
-		   				<aligny>center</aligny>
-		   				<label>$INFO[ListItem.Property(custom:time)]</label>
-		   				<textcolor>white</textcolor>
-		   				<selectedcolor>DD940000</selectedcolor>
-		   				<scroll>true</scroll>
-		   				<scrollspeed>30</scrollspeed>
-	       		</control>
-	       		<control type="label">
-		   				<visible>Control.HasFocus(101)</visible>   
-		   				<posx>220</posx>
-		   				<posy>0</posy>
-		   				<width>333</width>
-		   				<height>23</height>
-		   				<font>font15</font>
-		   				<align>left</align>
-		   				<aligny>center</aligny>
-		   				<label>$INFO[ListItem.Property(custom:event)]</label>
-		   				<textcolor>white</textcolor>
-		   				<selectedcolor>DD940000</selectedcolor>
-		   				<scroll>true</scroll>
-		   				<scrollspeed>30</scrollspeed>
-	       		</control>
-	    		</focusedlayout>
-	    		<content type="url" url="http://boxee.thinkonezero.com/espn3/rss_upcoming.xml">
-	    		</content>
+						</control>
+					</itemlayout>
+					<focusedlayout width="553" height="23">
+						<control type="image">
+							<visible>Control.HasFocus(101)</visible>
+							<posx>0</posx>
+							<posy>0</posy>
+							<width>553</width>
+							<height>23</height>
+							<texture>white.png</texture>
+							<colordiffuse>DD940000</colordiffuse>
+						</control>
+						<control type="label">
+							<visible>!Control.HasFocus(101)</visible>
+							<posx>0</posx>
+							<posy>0</posy>
+							<width>95</width>
+							<height>23</height>
+							<font>font15</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Property(custom:date)]</label>
+							<textcolor>black</textcolor>
+							<selectedcolor>DD940000</selectedcolor>
+						</control>
+						<control type="label">
+							<visible>!Control.HasFocus(101)</visible>
+							<posx>100</posx>
+							<posy>0</posy>
+							<width>115</width>
+							<height>23</height>
+							<font>font15</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Property(custom:time)]</label>
+							<textcolor>black</textcolor>
+							<selectedcolor>DD940000</selectedcolor>
+						</control>
+						<control type="label">
+							<visible>!Control.HasFocus(101)</visible>
+							<posx>220</posx>
+							<posy>0</posy>
+							<width>333</width>
+							<height>23</height>
+							<font>font15</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Property(custom:event)]</label>
+							<textcolor>black</textcolor>
+							<selectedcolor>DD940000</selectedcolor>
+						</control>
+						<control type="label">
+							<visible>Control.HasFocus(101)</visible>   
+							<posx>0</posx>
+							<posy>0</posy>
+							<width>95</width>
+							<height>23</height>
+							<font>font15</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Property(custom:date)]</label>
+							<textcolor>white</textcolor>
+							<selectedcolor>DD940000</selectedcolor>
+							<scroll>true</scroll>
+							<scrollspeed>30</scrollspeed>
+						</control>
+						<control type="label">
+							<visible>Control.HasFocus(101)</visible>   
+							<posx>100</posx>
+							<posy>0</posy>
+							<width>115</width>
+							<height>23</height>
+							<font>font15</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Property(custom:time)]</label>
+							<textcolor>white</textcolor>
+							<selectedcolor>DD940000</selectedcolor>
+							<scroll>true</scroll>
+							<scrollspeed>30</scrollspeed>
+						</control>
+						<control type="label">
+							<visible>Control.HasFocus(101)</visible>   
+							<posx>220</posx>
+							<posy>0</posy>
+							<width>333</width>
+							<height>23</height>
+							<font>font15</font>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Property(custom:event)]</label>
+							<textcolor>white</textcolor>
+							<selectedcolor>DD940000</selectedcolor>
+							<scroll>true</scroll>
+							<scrollspeed>30</scrollspeed>
+						</control>
+					</focusedlayout>
+					<content type="url" url="http://boxee.thinkonezero.com/espn3/feeds/upcoming.xml">
+					</content>
 				</control>
-      </control>
-    </controls>
+			</control>
+		</controls>
 	</window>
