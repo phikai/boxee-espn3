@@ -70,7 +70,12 @@ myTracker.trackView("home")
 					<posy>103</posy>
 					<height>32</height>
 					<width>92</width>
-					<ondown>100</ondown>
+					<ondown lang="python"><![CDATA[
+if mc.GetWindow(14000).GetControl(100).IsVisible():
+	mc.GetWindow(14000).GetControl(100).SetFocus()
+else:
+	mc.GetWindow(14000).GetControl(111).SetFocus()
+]]></ondown>
 					<visible>true</visible>
 					<texturefocus>button_live_glow.png</texturefocus>
 					<texturenofocus>button_live_selected.png</texturenofocus>
@@ -438,7 +443,12 @@ else:
 					<posy>595</posy>
 					<width>563</width>
 					<height>118</height>
-					<onleft>100</onleft>
+					<onleft lang="python"><![CDATA[
+if mc.GetWindow(14000).GetControl(100).IsVisible():
+	mc.GetWindow(14000).GetControl(100).SetFocus()
+else:
+	mc.GetWindow(14000).GetControl(111).SetFocus()
+]]></onleft>
 					<orientation>vertical</orientation>
 					<itemlayout width="553" height="23">
 						<control type="label">

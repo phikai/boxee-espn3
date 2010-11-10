@@ -2,8 +2,8 @@
 <app>
 	<id>com.boxee.thinkonezero.espn3</id>
 	<name>ESPN3</name>
-	<version>0.9.9</version>
-	<description>Watch videos from espn3.com - v0.9.9</description>
+	<version>0.9.91</version>
+	<description>Watch videos from espn3.com - v0.9.91</description>
 	<thumb>http://boxee.thinkonezero.com/espn3/build/im/thumb_200x200.png</thumb>
 	<repositoryid>com.boxee.thinkonezero</repositoryid>
 	<repository>http://repository.boxee.thinkonezero.com</repository>
