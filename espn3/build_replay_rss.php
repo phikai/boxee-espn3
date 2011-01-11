@@ -11,6 +11,7 @@ include('/home/phikai/boxee.thinkonezero.com/espn3/build/scripts/functions.inc.p
 //MySQL Connection for each Item
 mysql_connect($server,$username,$password);
 @mysql_select_db($database) or die( "Unable to select database");
+mysql_query("SET time_zone = '-5:00';");
 
 //JavaScript Control Overlay URL for Boxee
 $js_control = rawurlencode('http://boxee.thinkonezero.com/espn3/build/scripts/js/control.js');
@@ -21,7 +22,7 @@ $content_url = rawurlencode('http://espn.go.com/espn3/player');
 /**************** REPLAY SPORTS ********************/	
 
 //Query for each sport from the Replay Table	
-$query1 = mysql_query("SELECT distinct sport FROM e3_replay") or die(mysql_error());
+$query1 = mysql_query("SELECT distinct sport FROM e3_replay WHERE date > NOW() - INTERVAL 30 day ORDER BY sport") or die(mysql_error());
 
 //Start of Sport RSS Feed of RSS Feeds based on each sport
 $sportrss .= '<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:boxee="http://boxee.tv/spec/rss/" xmlns:dcterms="http://purl.org/dc/terms/">'."\n";
@@ -47,7 +48,7 @@ while($sport = mysql_fetch_array($query1)){
 	$safesport = mysql_real_escape_string($sport[0]);
 	
 	//Query for each league of each sport from the Replay Table
-	$query2 = mysql_query("SELECT distinct league FROM e3_replay WHERE sport='$safesport'") or die(mysql_error());
+	$query2 = mysql_query("SELECT distinct league FROM e3_replay WHERE sport='$safesport' AND date > NOW() - INTERVAL 30 day ORDER BY league") or die(mysql_error());
 	
 	//Start of League RSS Feed of RSS Feeds based on each league
 	$leaguerss .= '<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:boxee="http://boxee.tv/spec/rss/" xmlns:dcterms="http://purl.org/dc/terms/">'."\n";
@@ -88,6 +89,7 @@ while($sport = mysql_fetch_array($query1)){
 			while($results = mysql_fetch_array($query3)){
 			
 				$league_url = strtolower(str_replace(" ", "%20", $results['league']));
+				$time = date("g:i A", strtotime($results['time']));
 				
 				$eventrss .= '<item>'."\n";
 				$eventrss .= '<guid>http://espn.go.com/espn3/player?id='.$results['event_id'].'</guid>'."\n";
@@ -97,7 +99,7 @@ while($sport = mysql_fetch_array($query1)){
 				$eventrss .= '<boxee:property name="custom:league">'.$results['league'].'</boxee:property>'."\n";
 				$eventrss .= '<boxee:property name="custom:event">'.$results['event'].'</boxee:property>'."\n";
 				$eventrss .= '<boxee:property name="custom:date">'.$results['date'].'</boxee:property>'."\n";
-				$eventrss .= '<boxee:property name="custom:time">'.$results['time'].' EST</boxee:property>'."\n";
+				$eventrss .= '<boxee:property name="custom:time">'.$time.' EST</boxee:property>'."\n";
 				$eventrss .= '<media:content url="flash://espn.go.com/src='.$content_url.'%3Fid%3D'.$results['event_id'].'%26league%3D'.$league_url.'&bx-jsactions='.$js_control.'" type="application/x-shockwave-flash" />'."\n";
 				if (url_exists($results['thumb'])) {
 					$eventrss .= '<media:thumbnail url="'.$results['thumb'].'" />'."\n";

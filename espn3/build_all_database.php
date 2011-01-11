@@ -6,6 +6,8 @@ include('/home/phikai/boxee.thinkonezero.com/mysql_connect.inc.php');
 //MySQL Connection
 mysql_connect($server,$username,$password);
 @mysql_select_db($database) or die("Unable to select database");
+mysql_query("SET time_zone = '-5:00';");
+
 
 //Set XML Errors Off
 //libxml_use_internal_errors(true);
@@ -49,7 +51,7 @@ foreach($e3_live_xml->event as $event) {
 	foreach($event->startTime as $event_time) {
 		$time = trim($event_time);
 		$raw['date'] = date('Y-m-d', strtotime($time));
-		$raw['time'] = date('g:i A', strtotime($time));
+		$raw['time'] = date('H:i:s', strtotime($time));
 	}
 	unset($event_time);
 	foreach($event->thumbnail->large as $event_thumb) {
@@ -109,7 +111,7 @@ foreach($e3_live_xml->event as $event) {
 	foreach($event->startTime as $event_time) {
 		$time = trim($event_time);
 		$raw['date'] = date('Y-m-d', strtotime($time));
-		$raw['time'] = date('g:i A', strtotime($time));
+		$raw['time'] = date('H:i:s', strtotime($time));
 	}
 	unset($event_time);
 	foreach($event->thumbnail->large as $event_thumb) {
@@ -163,7 +165,7 @@ foreach($e3_replay_xml->event as $event) {
 	foreach($event->startTime as $event_time) {
 		$time = trim($event_time);
 		$raw['date'] = date('Y-m-d', strtotime($time));
-		$raw['time'] = date('g:i A', strtotime($time));
+		$raw['time'] = date('H:i:s', strtotime($time));
 	}
 	unset($event_time);
 	foreach($event->thumbnail->large as $event_thumb) {
@@ -217,7 +219,7 @@ foreach($e3_upcoming_xml->event as $event) {
 	foreach($event->startTime as $event_time) {
 		$time = trim($event_time);
 		$raw['date'] = date('Y-m-d', strtotime($time));
-		$raw['time'] = date('g:i A', strtotime($time));
+		$raw['time'] = date('H:i:s', strtotime($time));
 	}
 	unset($event_time);
 	foreach($event->thumbnail->large as $event_thumb) {
@@ -231,7 +233,7 @@ foreach($e3_upcoming_xml->event as $event) {
 	}
    	
 	//MySQL Query for Each Item
-	$query = "INSERT INTO e3_upcoming VALUES('', NOW(), DATE('{$safe['date']}'), '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}')";
+	$query = "INSERT INTO e3_upcoming VALUES('', NOW(), DATE('{$safe['date']}'), '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}') ON DUPLICATE KEY UPDATE event='{$safe['event']}', league='{$safe['league']}', sport='{$safe['sport']}', time='{$safe['time']}', thumb='{$safe['thumb']}'";
 	mysql_query($query);
 
 }
