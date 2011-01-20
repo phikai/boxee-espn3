@@ -57,10 +57,8 @@ if(mysql_num_rows($data)==0){
 			$rss .= '<ttl>15</ttl>'."\n";
 				while($results = mysql_fetch_array($data)){
 					if($results['table'] == 'upcoming') {
-						echo $results['table'];
 						if(time_diff($results['time']) == 'true') {
-							echo time_diff($results['time']);
-				
+										
 							$league_url = strtolower(str_replace(" ", "%20", $results['league']));
 							$time = date("g:i A", strtotime($results['time']));
 							$date = date("m-d-Y", strtotime($results['date']));
