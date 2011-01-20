@@ -90,15 +90,16 @@ while($sport = mysql_fetch_array($query1)){
 			
 				$league_url = strtolower(str_replace(" ", "%20", $results['league']));
 				$time = date("g:i A", strtotime($results['time']));
+				$date = date("m-d-Y", strtotime($results['date']));
 				
 				$eventrss .= '<item>'."\n";
 				$eventrss .= '<guid>http://espn.go.com/espn3/player?id='.$results['event_id'].'</guid>'."\n";
 				$eventrss .= '<title>'.$results['sport'].' - '.$results['event'].'</title>'."\n";
-				$eventrss .= '<description>'.$results['sport'].' - '.$results['league'].' - '.$results['event'].' - '.$results['date'].' - '.$results['time'].' EST</description>'."\n";
+				$eventrss .= '<description>'.$results['sport'].' - '.$results['league'].' - '.$results['event'].' - '.$date.' - '.$time.' EST</description>'."\n";
 				$eventrss .= '<boxee:property name="custom:sport">'.$results['sport'].'</boxee:property>'."\n";
 				$eventrss .= '<boxee:property name="custom:league">'.$results['league'].'</boxee:property>'."\n";
 				$eventrss .= '<boxee:property name="custom:event">'.$results['event'].'</boxee:property>'."\n";
-				$eventrss .= '<boxee:property name="custom:date">'.$results['date'].'</boxee:property>'."\n";
+				$eventrss .= '<boxee:property name="custom:date">'.$date.'</boxee:property>'."\n";
 				$eventrss .= '<boxee:property name="custom:time">'.$time.' EST</boxee:property>'."\n";
 				$eventrss .= '<media:content url="flash://espn.go.com/src='.$content_url.'%3Fid%3D'.$results['event_id'].'%26league%3D'.$league_url.'&bx-jsactions='.$js_control.'" type="application/x-shockwave-flash" />'."\n";
 				if (url_exists($results['thumb'])) {

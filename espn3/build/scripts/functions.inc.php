@@ -1,7 +1,7 @@
 <?php
 function url_exists($url) {
     // Version 4.x supported
-    $handle   = curl_init($url);
+    $handle = curl_init($url);
     if (false === $handle)
     {
         return false;
@@ -15,4 +15,26 @@ function url_exists($url) {
     curl_close($handle);  
     return $connectable;
 }
+
+function time_diff($eventtime){
+//This will probably fail from 11:45 PM until sometime the next morning...but it shouldn't really matter cause live event table should be correct...
+	$curtime = date('H:i');
+	$curtime = explode(":", $curtime);
+	$curtime_hours = $curtime[0] * 3600;
+	$curtime_mins = $curtime[1] * 60;
+	$curtimeSeconds = $curtime_hours + $curtime_mins + 600;
+	
+	$eventtime = explode(":", $eventtime);
+	$eventtime_hours = $eventtime[0] * 3600;
+	$eventtime_mins = $eventtime[1] * 60;
+	$eventtimeSeconds = $eventtime_hours + $eventtime_mins;
+	
+	if($eventtimeSeconds <= $curtimeSeconds) {
+		return "true";
+	}
+	else {
+		return "false";
+	}
+}
+
 ?>

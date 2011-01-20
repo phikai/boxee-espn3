@@ -65,7 +65,7 @@ foreach($e3_live_xml->event as $event) {
 	}
    	
 	//MySQL Query for Each Item
-	$query = "INSERT INTO e3_live VALUES('', NOW(), DATE('{$safe['date']}'), '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}')";
+	$query = "INSERT INTO e3_live(fulldate, date, event_id, event, league, sport, time, thumb) VALUES(NOW(), DATE('{$safe['date']}'), '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}')";
 	mysql_query($query);
 
 }
@@ -125,7 +125,7 @@ foreach($e3_live_xml->event as $event) {
 	}
    	
 	//MySQL Query for Each Item
-	$query = "INSERT INTO e3_live VALUES('', NOW(), DATE('{$safe['date']}'), '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}')";
+	$query = "INSERT INTO e3_live(fulldate, date, event_id, event, league, sport, time, thumb) VALUES(NOW(), DATE('{$safe['date']}'), '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}')";
 	mysql_query($query);
 
 }
@@ -179,7 +179,7 @@ foreach($e3_replay_xml->event as $event) {
 	}
    	
 	//MySQL Query for Each Item
-	$query = "INSERT INTO e3_replay VALUES('', NOW(), DATE('{$safe['date']}'), '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}')";
+	$query = "INSERT INTO e3_replay(fulldate, date, event_id, event, league, sport, time, thumb) VALUES(NOW(), DATE('{$safe['date']}'), '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}') ON DUPLICATE KEY UPDATE event='{$safe['event']}', league='{$safe['league']}', sport='{$safe['sport']}', time='{$safe['time']}', thumb='{$safe['thumb']}'";
 	mysql_query($query);
 
 }
@@ -233,7 +233,7 @@ foreach($e3_upcoming_xml->event as $event) {
 	}
    	
 	//MySQL Query for Each Item
-	$query = "INSERT INTO e3_upcoming VALUES('', NOW(), DATE('{$safe['date']}'), '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}') ON DUPLICATE KEY UPDATE event='{$safe['event']}', league='{$safe['league']}', sport='{$safe['sport']}', time='{$safe['time']}', thumb='{$safe['thumb']}'";
+	$query = "INSERT INTO e3_upcoming(fulldate, date, event_id, event, league, sport, time, thumb) VALUES(NOW(), DATE('{$safe['date']}'), '{$safe['idnum']}', '{$safe['event']}', '{$safe['league']}', '{$safe['sport']}', '{$safe['time']}', '{$safe['thumb']}') ON DUPLICATE KEY UPDATE event='{$safe['event']}', league='{$safe['league']}', sport='{$safe['sport']}', time='{$safe['time']}', thumb='{$safe['thumb']}'";
 	mysql_query($query);
 
 }
