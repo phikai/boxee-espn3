@@ -17,6 +17,7 @@ The apps:
 * ESPN3: http://espn3.com
 * FilmCow: http://filmcow.com
 * Red vs. Blue: http://redvsblue.com
+* TechCrunch TV: http://techcrunch.tv
 
 == About ESPN3 App ==
 The ESPN3 App is based around their content sources parsed by the PHP scripts
@@ -30,7 +31,7 @@ add "http://repositroy.boxee.thinkonezero.com" as a 3rd party repository first
 
 1. Apps
 2. Add Repository (all the way on the bottom in the left pane) 
-3. http://repositroy.boxee.thinkonezero.com
+3. http://repository.boxee.thinkonezero.com
 
 You'll then be able to see all apps in the repository and add them to your apps.
 
