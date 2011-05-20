@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+	<window type="dialog" id="14001">
+	<allowoverlay>yes</allowoverlay>
+	<defaultcontrol always="true">101</defaultcontrol>
+		<onload lang="python"><![CDATA[
+config = mc.GetApp().GetLocalConfig()
+quality = config.GetValue("quality")
+if quality == '0':
+	mc.HideDialogWait()
+	mc.GetActiveWindow().GetControl(101).SetFocus()
+elif quality == '1':
+	mc.HideDialogWait()
+	mc.GetActiveWindow().GetControl(102).SetFocus()
+elif quality == '2':
+	mc.HideDialogWait()
+	mc.GetActiveWindow().GetControl(103).SetFocus()
+elif quality == '3':
+	mc.HideDialogWait()
+	mc.GetActiveWindow().GetControl(104).SetFocus()
+else:
+	mc.HideDialogWait()
+]]></onload>
+			<controls>
+				<control type="group">
+					<control type="image">
+						<width>1280</width>
+						<height>720</height>
+						<texture>white.png</texture>
+						<colordiffuse>DD333333</colordiffuse>
+					</control>
+					<!-- Information Conatiner -->
+					<control type ="image">
+						<posx>213</posx>
+						<posy>120</posy>
+						<width>854</width>
+						<height>480</height>
+						<texture>white.png</texture>
+						<colordiffuse>DD202020</colordiffuse>
+					</control>
+					<!-- Item Title -->
+					<control type="label">
+						<visible>true</visible>
+						<posx>220</posx>
+						<posy>170</posy>
+						<align>left</align>
+						<aligny>center</aligny>
+						<label>ESPN3 Application Settings</label>
+						<font>title32b</font>
+						<textcolor>DD940000</textcolor>
+						<wrapmultiline>false</wrapmultiline>
+					</control>
+					<!-- Button Control -->
+					<control type="button" id="101">
+						<visible>true</visible>
+						<onup>-</onup>
+						<ondown>102</ondown>
+						<onleft>-</onleft>
+						<onright>208</onright>
+						<posx>230</posx>
+						<posy>200</posy>
+						<align>left</align>
+						<aligny>center</aligny>
+						<texturefocus>-</texturefocus>
+						<texturenofocus>-</texturenofocus>
+						<label>Low Quality Stream (bitrate: 400000)</label>
+						<font>font20</font>
+						<textcolor>white</textcolor>
+						<focusedcolor>DD940000</focusedcolor>
+						<onclick lang="python"><![CDATA[
+quality = config.GetValue("quality")
+if quality = '0':
+	mc.ShowDialogOk('Quality Already Set', 'Your Replay Stream Quality has already been set to Low (bitrate: 400000)')
+else:
+	config.SetValue("quality", '0')
+	xbmc.executebuiltin("Dialog.Close(14001)")
+	mc.ShowDialogOk('Quality Set', 'Your Replay Stream Quality has been set to Low (bitrate: 400000)')
+]]></onclick>
+					</control>
+					<!-- Button Control -->
+					<control type="button" id="102">
+						<visible>true</visible>
+						<onup>101</onup>
+						<ondown>103</ondown>
+						<onleft>-</onleft>
+						<onright>208</onright>
+						<posx>230</posx>
+						<posy>230</posy>
+						<align>left</align>
+						<aligny>center</aligny>
+						<texturefocus>-</texturefocus>
+						<texturenofocus>-</texturenofocus>						
+						<label>Medium Quality Stream (bitrate: 800000)</label>
+						<font>font22</font>
+						<textcolor>white</textcolor>
+						<focusedcolor>DD940000</focusedcolor>
+						<onclick lang="python"><![CDATA[
+quality = config.GetValue("quality")
+if quality = '1':
+	mc.ShowDialogOk('Quality Already Set', 'Your Replay Stream Quality has already been set to Medium (bitrate: 800000)')
+else:
+	config.SetValue("quality", '1')
+	xbmc.executebuiltin("Dialog.Close(14001)")
+	mc.ShowDialogOk('Quality Set', 'Your Replay Stream Quality has been set to Medium (bitrate: 800000)')
+]]></onclick>
+					</control>
+					<!-- Option 2 Button Control -->
+					<control type="button" id="103">
+						<visible>true</visible>
+						<onup>102</onup>
+						<ondown>104</ondown>
+						<onleft>-</onleft>
+						<onright>208</onright>
+						<posx>230</posx>
+						<posy>260</posy>
+						<align>left</align>
+						<aligny>center</aligny>
+						<texturefocus>-</texturefocus>
+						<texturenofocus>-</texturenofocus>						
+						<label>High Quality Stream (bitrate: 1200000)</label>
+						<font>font22</font>
+						<textcolor>white</textcolor>
+						<focusedcolor>DD940000</focusedcolor>
+						<onclick lang="python"><![CDATA[
+quality = config.GetValue("quality")
+if quality = '2':
+	mc.ShowDialogOk('Quality Already Set', 'Your Replay Stream Quality has already been set to High (bitrate: 1200000)')
+else:						
+	config.SetValue("quality", '2')
+	xbmc.executebuiltin("Dialog.Close(14001)")
+	mc.ShowDialogOk('Quality Set', 'Your Replay Stream Quality has been set to High (bitrate: 1200000)')
+]]></onclick>
+					</control>
+					<!-- Option 3 Button Control -->
+					<control type="button" id="104">
+						<visible>true</visible>
+						<onup>103</onup>
+						<ondown>208</ondown>
+						<onleft>-</onleft>
+						<onright>208</onright>
+						<posx>230</posx>
+						<posy>290</posy>
+						<align>left</align>
+						<aligny>center</aligny>
+						<texturefocus>-</texturefocus>
+						<texturenofocus>-</texturenofocus>						
+						<label>Highest Quality Stream (bitrate: 1800000)</label>
+						<font>font22</font>
+						<textcolor>white</textcolor>
+						<focusedcolor>DD940000</focusedcolor>
+						<onclick lang="python"><![CDATA[
+quality = config.GetValue("quality")
+if quality = '3':
+	mc.ShowDialogOk('Quality Already Set', 'Your Replay Stream Quality has already been set to Highest (bitrate: 1800000)')
+else:							
+	config.SetValue("quality", '3')
+	xbmc.executebuiltin("Dialog.Close(14001)")
+	mc.ShowDialogOk('Quality Set', 'Your Replay Stream Quality has been set to Highest (bitrate: 1800000)')
+]]></onclick>
+					</control>
+					<!-- Close Button Control -->
+					<control type="button" id="208">
+						<visible>true</visible>
+						<onup>104</onup>
+						<ondown>-</ondown>
+						<onleft>104</onleft>
+						<onright>-</onright>
+						<posx>1010</posx>
+						<posy>565</posy>
+						<align>left</align>
+						<aligny>center</aligny>
+						<texturefocus>-</texturefocus>
+						<texturenofocus>-</texturenofocus>						
+						<label>Back</label>
+						<font>font22</font>
+						<textcolor>white</textcolor>
+						<focusedcolor>DD940000</focusedcolor>
+						<onclick lang="python"><![CDATA[
+xbmc.executebuiltin("Dialog.Close(14001)")
+]]></onclick>
+					</control>	
+				</control>
+			</controls>
+	</window>

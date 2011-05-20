@@ -1,24 +1,21 @@
 <?xml version="1.0"?>
 	<window type="window" id="14000">
-<!--	
 		<onload lang="python"><![CDATA[
 import tracker
-import login
+import streams
 
 config = mc.GetApp().GetLocalConfig()
-uname = config.GetValue("username")
-pword = config.GetValue("password")
-
-if uname:
-	mc.ShowDialogNotification("Logging in...")
-	login.login(uname, pword)
-
-myTracker = tracker.Tracker("MO-3541558-10")
-myTracker.trackView("espn3-home")
-]]></onload>
--->
-		<onload lang="python"><![CDATA[
-import tracker
+quality = config.GetValue("quality")
+if quality == '0':
+	pass
+elif quality == '1':
+	pass
+elif quality == '2':
+	pass
+elif quality == '3':
+	pass
+else:
+	config.SetValue("quality", '2')
 
 myTracker = tracker.Tracker("MO-3541558-10")
 myTracker.trackView("home")
@@ -34,35 +31,24 @@ myTracker.trackView("home")
 					<height>720</height>
 					<texture>espn3_bg.png</texture>
 				</control>
-				<control type="image">
-					<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
-						<effect type="fade" start="100" end="20" time="200"/>
-					</animation>
-					<posx>61</posx>
-					<posy>190</posy>
-					<width>504</width>
-					<height>457</height>
-					<texture>espn3_event_list.png</texture>
-				</control>
-				<control type="image">
-					<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
-						<effect type="fade" start="100" end="20" time="200"/>
-					</animation>
-				<posx>695</posx>
-				<posy>193</posy>
-				<width>480</width>
-				<height>337</height>
-				<texture>espn3_event_details.png</texture>
-				</control>
-				<control type="image">
-					<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
-						<effect type="fade" start="100" end="20" time="200"/>
-					</animation>
-					<posx>653</posx>
-					<posy>595</posy>
-					<width>563</width>
-					<height>118</height>
-					<texture>espn3_event_upcoming.png</texture>
+				<control type="group" id="300">
+					<control type="button" id="1300">
+						<posx>1096</posx>
+						<posy>25</posy>
+						<height>60</height>
+						<width>160</width>
+						<ondown>100</ondown>
+						<onleft>200</onleft>
+						<visible>true</visible>
+						<texturefocus>button_settings_glow.png</texturefocus>
+						<texturenofocus>button_settings.png</texturenofocus>
+						<onclick lang="python"><![CDATA[
+mc.ShowDialogWait()						
+myTracker.trackEvent("Action", "Click", "Settings")
+
+mc.ActivateWindow(14001)
+]]></onclick>
+					</control>
 				</control>
 				<control type="group" id="200">
 					<control type="togglebutton" id="1200">
@@ -76,6 +62,8 @@ if mc.GetWindow(14000).GetControl(100).IsVisible():
 else:
 	mc.GetWindow(14000).GetControl(111).SetFocus()
 ]]></ondown>
+					<onright>300</onright>
+					<onup>300</onup>
 					<visible>true</visible>
 					<texturefocus>button_live_glow.png</texturefocus>
 					<texturenofocus>button_live_selected.png</texturenofocus>
@@ -101,54 +89,6 @@ myTracker.trackEvent("Content", "Click", "Live")
 ]]></altclick>
 					</control>
 				</control>
-<!--				
-				<control type="group" id="300">
-					<control type="button" id="1300">
-						<posx>938</posx>
-						<posy>25</posy>
-						<height>53</height>
-						<width>153</width>
-						<ondown>100</ondown>
-						<onleft>200</onleft>
-						<onright>1301</onright>
-						<visible>true</visible>
-						<texturefocus>button_login_glow.png</texturefocus>
-						<texturenofocus>button_login.png</texturenofocus>
-						<onclick lang="python"><![CDATA[
-myTracker.trackEvent("Action", "Click", "Login")
-
-uname = mc.ShowDialogKeyboard("Email", "", False)
-pword = mc.ShowDialogKeyboard("Password", "", True)
-if uname and pword:
-	config = mc.GetApp().GetLocalConfig()
-	config.SetValue("username", uname)
-	config.SetValue("password", pword)
-	mc.ShowDialogNotification("Credentials stored.")
-	login.login(uname, pword)
-else:
-	mc.ShowDialogNotification("Please enter username and password.")	
-]]></onclick>
-					</control>
-					<control type="button" id="1301">
-						<posx>1096</posx>
-						<posy>25</posy>
-						<height>53</height>
-						<width>153</width>
-						<ondown>100</ondown>
-						<onleft>1300</onleft>
-						<visible>true</visible>
-						<texturefocus>button_logout_glow.png</texturefocus>
-						<texturenofocus>button_logout.png</texturenofocus>
-						<onclick lang="python"><![CDATA[
-myTracker.trackEvent("Action", "Click", "Logout")
-
-config = mc.GetApp().GetLocalConfig()
-config.ResetAll()	
-mc.ShowDialogNotification("Logging out...")
-]]></onclick>
-					</control>
-				</control>
--->
 				<control type="panel" id="100">
 					<animation type="Conditional" condition="Window.IsVisible(DialogProgress.xml)">
 						<effect type="fade" start="100" end="20" time="200"/>
@@ -295,8 +235,11 @@ mc.ShowDialogNotification("Logging out...")
 n = mc.GetActiveWindow().GetList(100).GetFocusedItem()
 listitem = mc.GetActiveWindow().GetList(100).GetItem(n)
 
+myTracker = tracker.Tracker("MO-3541558-10")
 myTracker.trackEvent("Event", "Play", listitem.GetProperty("event"))
-mc.GetPlayer().Play(listitem)
+#streams.doStreams(listitem)
+player = mc.GetPlayer()
+player.Play(listitem)
 ]]></onclick>
 					</content>
 				</control>
@@ -402,8 +345,9 @@ if (linktype[0] == "rss"):
     mc.GetWindow(14000).PushState()
     mc.GetWindow(14000).GetList(111).SetContentURL( params["link"])
 else:
+	myTracker = tracker.Tracker("MO-3541558-10")
 	myTracker.trackEvent("Event", "Play", listitem.GetProperty("event"))
-	mc.GetPlayer().Play(listitem)
+	streams.doStreams(listitem)
 ]]></onclick>
 					</content>
 				</control>
